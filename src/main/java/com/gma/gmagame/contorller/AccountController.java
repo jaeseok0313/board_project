@@ -18,4 +18,5 @@ public class AccountController {
 
         return "account/register";
     }
+
 }
