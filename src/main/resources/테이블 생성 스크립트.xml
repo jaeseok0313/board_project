@@ -1,0 +1,48 @@
+<!--
+#유저 테이블 생성#
+CREATE TABLE USER_BAS(
+        USER_NO NUMBER,
+        USER_ID VARCHAR(20) UNIQUE NOT NULL,
+        USER_PWD VARCHAR(20) NOT NULL,
+        USER_NAME VARCHAR(10) NOT NULL,
+        admin_yn VARCHAR(1) CHECK(admin_yn IN ('Y', 'N')),
+        PHONE_NUMBER VARCHAR(30),
+        ADDRESS VARCHAR(100),
+        STATUS VARCHAR(10) NOT NULL CHECK(STATUS IN ('Y', 'N')),
+        CREATE_DATE DATE,
+        constraint user_pk primary key (USER_NO , USER_ID)
+        );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+
