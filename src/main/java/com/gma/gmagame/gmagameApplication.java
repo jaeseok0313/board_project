@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GmagameApplication {
+public class gmagameApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GmagameApplication.class, args);
+		SpringApplication.run(gmagameApplication.class, args);
 	}
 
 }

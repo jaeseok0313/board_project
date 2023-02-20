@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gma.gmagame.mapper.UserMapper">
+    <select id="selectList" parameterType="com.gma.gmagame.model.User" resultType="com.gma.gmagame.model.User">
+        SELECT *
+        FROM USER_BAS
+    </select>
+
+    <insert id="saveUser" parameterType="com.gma.gmagame.model.User">
+        INSERT INTO USER_H (USER_ID,USER_PWD,USER_NAME,PHONE_NUMBER,ADDRESS,ADMIN_YN,CREATE_DATE)
+        VALUES(#{user_id},#{user_pwd},#{user_name},#{phone_number},#{address},#{admin_yn},SYSDATE)
+
+<!--        (USER_ID, USER_PWD, USER_NAME,PHONE_NUMBER,ADDRESS,ADMIN_YN,STATUS)-->
+<!--        VALUES(#{user_id},#{user_pwd},#{user_name},#{phone_number},#{address},#{admin_yn},#{status});-->
+
+    </insert>
+
+</mapper>
+
+
