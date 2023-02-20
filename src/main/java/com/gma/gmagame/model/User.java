@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class User {
 
-    private Integer user_no;
+    private Number user_no;
 
 
     private String user_id;//
@@ -23,7 +23,5 @@ public class User {
     private String address;//
     private String status;
     private Date create_date;
-
-
 
 }
