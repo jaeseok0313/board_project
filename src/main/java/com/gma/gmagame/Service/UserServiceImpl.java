@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService{
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setUser_pwd(passwordEncoder.encode(user.getUser_pwd()));
         //user.setUserAuth("N");
-        user.setCreate_date(localTime);
-        user.setAdmin_yn("Y");
-
+        //user.setCreate_date(localTime);
+        //user.setAdmin_yn("Y");
+        //int result = this.userMapper.saveUser(user);
         userMapper.saveUser(user);
 
     }
