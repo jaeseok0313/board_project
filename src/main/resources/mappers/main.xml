@@ -9,11 +9,12 @@
     </select>
 
     <insert id="saveUser" parameterType="com.gma.gmagame.model.User">
-        INSERT INTO USER_H (USER_ID,USER_PWD,USER_NAME,PHONE_NUMBER,ADDRESS,ADMIN_YN,CREATE_DATE)
-        VALUES(#{user_id},#{user_pwd},#{user_name},#{phone_number},#{address},#{admin_yn},SYSDATE)
-
-<!--        (USER_ID, USER_PWD, USER_NAME,PHONE_NUMBER,ADDRESS,ADMIN_YN,STATUS)-->
-<!--        VALUES(#{user_id},#{user_pwd},#{user_name},#{phone_number},#{address},#{admin_yn},#{status});-->
+        <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
+            SELECT NVL(MAX(USER_NO),0)+1
+            FROM USER_BAS
+        </selectKey>
+        INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
+        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE)
 
     </insert>
 
