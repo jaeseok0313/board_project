@@ -19,17 +19,8 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
     private UserService userService;
 
-    @GetMapping("/main")
-    public List<User> main()
-    {
-        List<User> list = userMapper.selectList();
-        return list;
-    }
 
     @GetMapping("/register")
     public String register()
@@ -46,7 +37,7 @@ public class UserController {
         map.put("user_no", user.getUser_no());
         return map;
         */
-        userMapper.saveUser(user);
+        userService.joinUser(user);
         return "redirect:/index";
     }
 }
