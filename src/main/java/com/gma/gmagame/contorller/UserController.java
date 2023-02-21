@@ -6,6 +6,8 @@ import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
 import oracle.ucp.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
 
     @GetMapping("/register")
@@ -39,5 +41,7 @@ public class UserController {
         */
         userService.joinUser(user);
         return "redirect:/index";
+
+
     }
 }

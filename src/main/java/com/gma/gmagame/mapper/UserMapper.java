@@ -8,8 +8,9 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     //List<User> getUsers(@Param("text")String text);
-    public List<User> selectList();
 
     public void saveUser(User user);
+
+    User getUserAccount(String user_id);
 
 }

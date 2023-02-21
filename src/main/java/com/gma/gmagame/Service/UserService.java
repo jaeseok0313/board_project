@@ -4,6 +4,9 @@ import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +16,9 @@ import java.util.List;
 @Service
 @Mapper
 @RequiredArgsConstructor
-public class UserService{
+public class UserService implements UserDetailsService {
     @Autowired
-    UserMapper userMapper;
+    private final UserMapper userMapper;
     @Transactional
     public void joinUser(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -25,6 +28,15 @@ public class UserService{
         //user.setAdmin_yn("Y");
         userMapper.saveUser(user);
 
+    }
+    @Override
+    public User loadUserByUsername(String user_id) throws UsernameNotFoundException {
+        //여기서 받은 유저 패스워드와 비교하여 로그인 인증
+        User user = userMapper.getUserAccount(user_id);
+        if (user == null){
+            throw new UsernameNotFoundException("User not authorized.");
+        }
+        return user;
     }
 
 
