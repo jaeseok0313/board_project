@@ -1,9 +1,9 @@
 <!--
 #유저 테이블 생성#
 CREATE TABLE USER_BAS(
-        USER_NO NUMBER,
+        USER_NO INTEGER,
         USER_ID VARCHAR(20) UNIQUE NOT NULL,
-        USER_PWD VARCHAR(20) NOT NULL,
+        USER_PWD VARCHAR(100) NOT NULL,
         USER_NAME VARCHAR(10) NOT NULL,
         admin_yn VARCHAR(1) CHECK(admin_yn IN ('Y', 'N')),
         PHONE_NUMBER VARCHAR(30),
