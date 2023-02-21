@@ -14,8 +14,6 @@ import java.util.*;
 public class User implements UserDetails {
 
     private Integer user_no;
-
-
     private String user_id;//
     private String user_pwd;//
     private String user_name;//
