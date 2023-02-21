@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class User {
 
-    private Number user_no;
+    private Integer user_no;
 
 
     private String user_id;//

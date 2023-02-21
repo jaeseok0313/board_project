@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register_info() {
+    public String register_info(User user) {
         /*
         this.userService.saveUser(user);
 
