@@ -15,23 +15,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()	//로그인 창
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/login", "/singUp", "/access_denied", "/resources/**").permitAll() // 로그인 권한은 누구나, resources파일도 모든권한
+                .antMatchers( "/","/account/login", "/singUp", "/index", "/resources/**","/login_proc","/board/boards").permitAll() // 로그인 권한은 누구나, resources파일도 모든권한
                 // USER, ADMIN 접근 허용
-                //.antMatchers("/userAccess").hasRole("USER")
-                //.antMatchers("/userAccess").hasRole("ADMIN")
                 .and()
                 .formLogin()
-                .loginPage("/account/login")
-                .usernameParameter("user_id")
-                .passwordParameter("user_pwd")
-                //.loginProcessingUrl("/")
-                //.defaultSuccessUrl("/account/user_access")
-                //.failureUrl("/account/access_denied") // 인증에 실패했을 때 보여주는 화면 url, 로그인 form으로 파라미터값 error=true로 보낸다.
+                    .usernameParameter("user_id")
+                    .passwordParameter("user_pwd")
+                    .loginPage("/account/login")
+                    .permitAll()
                 .and()
                 .logout().permitAll();
-
+        //로그인 창
     }
 
     @Override

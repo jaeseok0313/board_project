@@ -26,19 +26,20 @@ public class AccountController {
 
         return "account/register";
     }
-
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public String register_info(User user) {
-        /*
-        this.userService.saveUser(user);
 
-        ModelMap map = new ModelMap();
-        map.put("user_no", user.getUser_no());
-        return map;
-        */
+
         userService.joinUser(user);
         return "redirect:/";
     }
 
 
+
 }
+// this.userService.saveUser(user);
+//
+//         ModelMap map = new ModelMap();
+//         map.put("user_no", user.getUser_no());
+//         return map;
+//         */
