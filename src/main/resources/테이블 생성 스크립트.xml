@@ -14,6 +14,21 @@ CREATE TABLE USER_BAS(
         );
 
 
+#board 테이블 생성#
+CREATE TABLE board (
+    board_idx INTEGER,
+    title VARCHAR(300) NOT NULL,
+    contents VARCHAR2(500) NOT NULL ,
+    hit_cnt NUMBER(5,0) DEFAULT 0 NOT NULL,
+    created_datetime DATE NOT NULL,
+    creator_id VARCHAR(50) NOT NULL,
+    updated_datetime DATE DEFAULT NULL,
+    updater_id VARCHAR(50) DEFAULT NULL,
+    deleted_yn CHAR(1) DEFAULT 'N' NOT NULL,
+    PRIMARY KEY(board_idx)
+);
+
+
 
 
 

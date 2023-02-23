@@ -21,8 +21,6 @@
         FROM USER_BAS
         WHERE USER_ID = #{user_id}
     </select>
-
-
 </mapper>
 
 
