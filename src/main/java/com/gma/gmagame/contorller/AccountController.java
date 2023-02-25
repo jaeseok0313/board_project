@@ -29,13 +29,9 @@ public class AccountController {
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public String register_info(User user) {
 
-
         userService.joinUser(user);
         return "redirect:/";
     }
-
-
-
 }
 // this.userService.saveUser(user);
 //

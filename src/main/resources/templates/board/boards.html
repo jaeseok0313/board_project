@@ -40,6 +40,7 @@
             <th scope="col">제목</th>
             <th scope="col">조회수</th>
             <th scope="col">등록일</th>
+            <th scope="col">작성자</th>
         </tr>
         </thead>
         <tbody>
@@ -48,14 +49,33 @@
             <td><a href="item.html" th:href="@{/board/{user_idx}(user_idx=${board.user_idx})}" th:text="${board.title}">제목</a></td>
             <td th:text="${board.viewCnt}">조회수</td>
             <td th:text="${board.datetime}">등록일</td>
+            <td th:text ="${board.name}">작성자</td>
         </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+    <ul style="pagination justify-content-center">
+<!--        <li class="page-item" th:classappend="${0==paging.startPage + 1}">-->
+<!--            <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${paging.startPage-1},nowPage=${param.nowPage})}">prev</a>-->
+<!--        </li>-->
+<!--        <li class="page-item">-->
+<!--            <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${paging.startPage},cntPerPage=${paging.cntPerPage})}" th:text="${paging.startPage}"></a>-->
+<!--        </li>-->
+        <li th:if="${paging.nowPage != 1} ? 'disabled'">
+            <a th:href="@{/board/boards(nowPage=${paging.startPage-1},cntPerPage=${paging.cntPerPage})}">&lt</a>
+        </li>
+        <li class="page-item" th:classappend="${nowPage==paging.nowPage} ? 'disabled'" th:each="nowPage : ${#numbers.sequence(paging.startPage,paging.endPage)}">
+            <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${nowPage},cntPerPage=${paging.cntPerPage})}" th:text="${nowPage}"></a>
+        </li>
+        <li th:if="${paging.endPage != paging.lastPage}">
+            <a th:href="@{/board/boards(nowPage=${paging.endPage+1},cntPerPage=${paging.cntPerPage})}">&gt</a>
+        </li>
+    </ul>
+    </nav>
     <div class="text-right">
         <a type="button" class="btn btn-primary" onclick="location.href='addForm.html'"
            th:onclick="|location.href='@{/board/add}'|">쓰기</a>
     </div>
 </div>
-
 <footer th:replace="fragments/common :: footer"/>
 </body>
 </html>

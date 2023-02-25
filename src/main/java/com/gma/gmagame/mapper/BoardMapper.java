@@ -1,6 +1,7 @@
 package com.gma.gmagame.mapper;
 
 import com.gma.gmagame.model.Board;
+import com.gma.gmagame.model.Paging;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,12 @@ public interface BoardMapper {
     public void deleteOne(Integer user_idx);
 
     public void updateOne(Board board);
+
+    public int countBoard();
+    // 페이징 처리 게시글 조회
+    public List<Board>
+    selectBoard(Paging vo);
+
 
 
 }

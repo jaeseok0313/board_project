@@ -2,10 +2,12 @@ package com.gma.gmagame.Service;
 
 import com.gma.gmagame.mapper.BoardMapper;
 import com.gma.gmagame.model.Board;
+import com.gma.gmagame.model.Paging;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,15 @@ public class BoardService {
     public void BoardUpdate(Board board)
     {
         boardMapper.updateOne(board);
+    }
+
+    public int countBoard() {
+
+        return boardMapper.countBoard();
+    }
+
+    public List<Board> selectBoard(Paging paging) {
+        return boardMapper.selectBoard(paging);
     }
 
 }

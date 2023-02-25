@@ -2,10 +2,12 @@ package com.gma.gmagame.model;
 
 import lombok.*;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Data
 public class Board {
+
 //        private Integer boardIdx;//글번호
 //        private String title;//제목
 //        private String contents;//내용
@@ -21,15 +23,16 @@ public class Board {
         private Integer viewCnt;
         private Date datetime;
 
-
-        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime)
+        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name)
         {
             this.user_idx=user_idx;
             this.title=title;
             this.contents=contents;
             this.viewCnt=viewCnt;
             this.datetime=datetime;
+            this.name=name;
         }
+
 
 }
 
