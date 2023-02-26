@@ -29,7 +29,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public String boardList(Paging paging, Model model
+    public String boardList(Paging vo, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage)
     {
@@ -42,9 +42,9 @@ public class BoardController {
         } else if (cntPerPage == null) {
             cntPerPage = "2";
         }
-        paging = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-        model.addAttribute("paging", paging);
-        model.addAttribute("boards", boardService.selectBoard(paging));
+        vo = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+        model.addAttribute("paging", vo);
+        model.addAttribute("boards", boardService.selectBoard(vo));
         return "board/boards";
     }
     @GetMapping("/{user_idx}")

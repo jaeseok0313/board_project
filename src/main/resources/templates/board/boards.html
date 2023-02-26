@@ -47,7 +47,7 @@
         </thead>
         <tbody>
         <tr th:each="board : ${boards}">
-            <td><a href="item.html" th:href="@{/board/{user_idx}(user_idx=${board.user_idx})}" th:text="${board.user_idx}">글 ID</a></td>
+            <td><a href="item.html" th:href="@{/board/{user_idx}(user_idx=${board.user_idx})}" th:text="${board.seq}">글 ID</a></td>
             <td><a href="item.html" th:href="@{/board/{user_idx}(user_idx=${board.user_idx})}" th:text="${board.title}">제목</a></td>
             <td th:text="${board.viewCnt}">조회수</td>
             <td th:text="${board.datetime}">등록일</td>
@@ -55,7 +55,7 @@
         </tbody>
     </table>
     <nav aria-label="Page navigation example">
-    <ul style="pagination justify-content-center">
+    <ul class="pagination justify-content-center">
         <li th:if="${paging.nowPage != 1} ? 'disabled'">
             <a th:href="@{/board/boards(nowPage=${paging.startPage-1},cntPerPage=${paging.cntPerPage})}">&lt</a>
         </li>

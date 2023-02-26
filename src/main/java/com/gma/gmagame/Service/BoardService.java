@@ -40,12 +40,11 @@ public class BoardService {
     }
 
     public int countBoard() {
-
         return boardMapper.countBoard();
     }
 
-    public List<Board> selectBoard(Paging paging) {
-        return boardMapper.selectBoard(paging);
+    public List<Board> selectBoard(Paging vo) {
+        return boardMapper.selectBoard(vo);
     }
 
 }

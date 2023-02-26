@@ -12,13 +12,14 @@
     </select>
     <!-- 페이징 처리 후 게시글 조회 -->
     <select id="selectBoard" resultType="com.gma.gmagame.model.Board">
-        SELECT *
-        FROM board_aa
-        WHERE board_idx BETWEEN #{start} AND #{end}
+        SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
+        FROM ( SELECT ROWNUM RN, A.*
+        FROM ( SELECT * FROM board_aa ORDER BY board_idx asc ) A )
+        WHERE RN BETWEEN #{start} AND #{end}
     </select>
 
     <select id="count" resultType="int">
-        select count(*) from board_c
+        select count(*) from board_aa
     </select>
     <select id="selectOne" resultType="com.gma.gmagame.model.Board">
         SELECT *
