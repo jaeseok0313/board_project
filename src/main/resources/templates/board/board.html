@@ -1,73 +1,70 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html xmlns:th="http://www.thymmeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link th:href="@{/css/register.css}" rel="stylesheet">
+    <title>글 상세</title>
 </head>
+
 <body>
-
+<div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4 " src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <!--<h2>게시판</h2>-->
+</div>
 <div class="container">
-
-    <div class="py-5 text-center">
-        <h2 th:text="#{page.board}">상품 상세</h2>
-    </div>
-
-    <!-- 추가 -->
-    <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
-
-    <div>
-        <label for="boardId" th:text="#{label.board.id}">ID</label>
-        <input type="text" id="boardId" name="boardId" class="form-control" value="1" th:value="${board.user_idx}" readonly>
-    </div>
-    <div>
-        <label for="boardSubject" th:text="#{label.board.subject}">제목</label>
-        <input type="text" id="boardSubject" name="boardSubject" class="form-control" value="상품A" th:value="${board.title}" readonly>
-    </div>
-    <div>
-        <label for="viewCnt" th:text="#{label.board.viewCnt}">조회수</label>
-        <input type="text" id="viewCnt" name="viewCnt" class="form-control" value="10" th:value="${board.viewCnt}" readonly>
-    </div>
-
-    <div>
-        <label for="datetime" th:text="#{label.board.datetime}">등록일</label>
-        <input type="text" id="datetime" name="datetime" class="form-control" value="10" th:value="${board.datetime}" readonly>
-    </div>
-
-    <div>
-        <label for="contents" th:text="#{label.board.contents}">글 내용</label>
-        <input type="text" id="contents" name="contents" class="form-control" value="10" th:value="${board.contents}" readonly>
-    </div>
-
-    <hr class="my-4">
+    <table>
+        <tbody style="border:solid">
+            <tr>
+                <th scope="row"><strong class="t-15">제목</strong></th>
+                <td><span id="boardSubject" name="boardSubject" class="form-control" style="background-color:transparent; border:none" th:text="${board.title}" readonly></span></td>
+            </tr>
+            <tr>
+                <th scope="row"><strong class="t-15">작성자</strong></th>
+                    <td><input type="text" id="writer" name="writer" class="form-control" th:value="${board.name}" readonly></td>
+                <th scope="row"><strong class="t-15">작성일</strong></th>
+                    <td><input type="text" id="datetime" name="datetime" class="form-control" value="10" th:value="${board.datetime}" readonly></td>
+                <th scope="row"><strong class="t-15">조회수</strong></th>
+                <td><input type="text" id="viewCnt" name="viewCnt" class="form-control" value="10" th:value="${board.viewCnt}" readonly></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="contents" name="contents" class="form-control" value="10" th:value="${board.contents}" readonly></td>
+            </tr>
+        </tbody>
+    </table>
 
     <div class="row">
         <div class="col" th:if="${#authentication.name == board.name}">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
                     th:onclick="|location.href='@{/board/{user_idx}/edit(user_idx=${board.user_idx})}'|"
-                    type="button" th:text="#{page.updateBoard}">상품 수정</button>
+                    type="button" th:text="#{page.updateBoard}">수정</button>
         </div>
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
                     onclick="location.href='items.html'"
                     th:onclick="|location.href='@{/board/boards}'|"
-                    type="button" th:text="#{button.list}">목록으로</button>
+                    type="button" th:text="#{button.list}">목록</button>
         </div>
 
         <div class="col" th:if="${#authentication.name == board.name}">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">삭제</button>
             <button class="w-100 btn btn-secondary btn-lg"
                     onclick="location.href='items.html'"
                     th:onclick="|location.href='@{/board/{user_idx}/delete(user_idx=${board.user_idx})}'|"
                     type="button" th:text="#{button.delete}">삭제</button>
         </div>
     </div>
-
 </div> <!-- /container -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="form-validation.js"></script>
+<footer th:replace="fragments/common :: footer"/>
 </body>
 </html>
