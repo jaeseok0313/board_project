@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -47,7 +47,7 @@
     <hr class="my-4">
 
     <div class="row">
-        <div class="col">
+        <div class="col" th:if="${#authentication.name == board.name}">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
                     th:onclick="|location.href='@{/board/{user_idx}/edit(user_idx=${board.user_idx})}'|"
@@ -60,7 +60,7 @@
                     type="button" th:text="#{button.list}">목록으로</button>
         </div>
 
-        <div class="col">
+        <div class="col" th:if="${#authentication.name == board.name}">
             <button class="w-100 btn btn-secondary btn-lg"
                     onclick="location.href='items.html'"
                     th:onclick="|location.href='@{/board/{user_idx}/delete(user_idx=${board.user_idx})}'|"

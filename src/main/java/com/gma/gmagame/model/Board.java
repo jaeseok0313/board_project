@@ -2,13 +2,12 @@ package com.gma.gmagame.model;
 
 import lombok.*;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.Map;
 
-//@Data
-@Getter
-@Setter
+@Data
 public class Board {
+
 //        private Integer boardIdx;//글번호
 //        private String title;//제목
 //        private String contents;//내용
@@ -23,28 +22,15 @@ public class Board {
         private String name;
         private Integer viewCnt;
         private Date datetime;
-        private Integer selectCnt;
 
-//        public Board(){
-//
-//        }
-
-
-    public Integer getSelectCnt() {
-        return selectCnt;
-    }
-
-    public void setSelectCnt(Integer selectCnt) {
-        this.selectCnt = selectCnt;
-    }
-
-    public Board(Integer user_idx, String title, String contents, Integer viewCnt, Date datetime)
+        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name)
         {
             this.user_idx=user_idx;
             this.title=title;
             this.contents=contents;
             this.viewCnt=viewCnt;
             this.datetime=datetime;
+            this.name=name;
         }
 
 

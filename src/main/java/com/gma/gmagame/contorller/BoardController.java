@@ -3,10 +3,12 @@ package com.gma.gmagame.contorller;
 import com.gma.gmagame.Service.BoardService;
 import com.gma.gmagame.mapper.BoardMapper;
 import com.gma.gmagame.model.Board;
+import com.gma.gmagame.model.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +29,23 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public String boards(Model model, Integer user_idx)
+    public String boardList(Paging paging, Model model
+            , @RequestParam(value="nowPage", required=false)String nowPage
+            , @RequestParam(value="cntPerPage", required=false)String cntPerPage)
     {
-        boardService.selectCnt(user_idx);
-        List<Board> boards = boardService.BoardList();
-        model.addAttribute("boards",boards);
-        System.out.println(user_idx);
+        int total = boardService.countBoard();
+        if (nowPage == null && cntPerPage == null) {
+            nowPage = "1";
+            cntPerPage = "2";
+        } else if (nowPage == null) {
+            nowPage = "1";
+        } else if (cntPerPage == null) {
+            cntPerPage = "2";
+        }
+        paging = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+        model.addAttribute("paging", paging);
+        model.addAttribute("boards", boardService.selectBoard(paging));
+        System.out.println(paging.getEndPage());
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
@@ -45,12 +58,13 @@ public class BoardController {
         return "board/board";
     }
     @GetMapping("/add")
-    public String addForm(@ModelAttribute Board board, Model model){
-
+    public String addForm(Model model ,@ModelAttribute Board board){
+        model.addAttribute("board",board);
         return "board/addForm2";
     }
     @PostMapping("/add")
-    public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes){
+    public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes ,Authentication authentication){
+        String name = authentication.getName();
         boardService.BoardAdd(board);
         return "redirect:/board/boards";
     }
