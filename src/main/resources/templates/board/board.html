@@ -11,13 +11,27 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link th:href="@{/css/register.css}" rel="stylesheet">
     <title>글 상세</title>
-</head>
-<style>
+    <style>
         .container {
-            max-width: 100%;
 
         }
+        .table td {
+            border:1px solid;
+        }
+        .table th {
+            border:1px solid;
+        }
+        .form-detail {
+            background-color:transparent;
+            border:none;
+        }
+        .form-text {
+            width:100%;
+            border:none;
+            min-height:10rem;
+        }
     </style>
+</head>
 
 <body>
 <div class="py-5 text-center">
@@ -25,47 +39,35 @@
     <!--<h2>게시판</h2>-->
 </div>
 <div class="container">
-    <table>
-        <tbody style="border:solid">
+    <table class="table">
+        <tbody>
             <tr>
                 <th scope="row"><strong class="t-15">제목</strong></th>
-                <td><span id="boardSubject" name="boardSubject" class="form-control" style="background-color:transparent; border:none" th:text="${board.title}" readonly></span></td>
+                <td colspan="5"><span id="boardSubject" name="boardSubject" class="form-detail" th:text="${board.title}" readonly></span></td>
             </tr>
             <tr>
                 <th scope="row"><strong class="t-15">작성자</strong></th>
-                    <td><input type="text" id="writer" name="writer" class="form-control" th:value="${board.name}" readonly></td>
+                <td><span type="text" id="writer" name="writer" class="form-detail" th:text="${board.name}" readonly></span></td>
                 <th scope="row"><strong class="t-15">작성일</strong></th>
-                    <td><input type="text" id="datetime" name="datetime" class="form-control" value="10" th:value="${board.datetime}" readonly></td>
+                <td><span type="text" id="datetime" name="datetime" class="form-detail" value="10" th:text="${board.datetime}" readonly></span></td>
                 <th scope="row"><strong class="t-15">조회수</strong></th>
-                <td><input type="text" id="viewCnt" name="viewCnt" class="form-control" value="10" th:value="${board.viewCnt}" readonly></td>
+                <td><span type="text" id="viewCnt" name="viewCnt" class="form-detail" value="10" th:text="${board.viewCnt}" readonly></span></td>
             </tr>
             <tr>
-                <td><input type="text" id="contents" name="contents" class="form-control" value="10" th:value="${board.contents}" readonly></td>
+                <th scope="row" colspan="6"><strong class="t-15">내용</strong></th>
+            </tr>
+            <tr>
+                <th scope="row" colspan="6"><textarea type="text" id="contents" name="contents" class="form-text" th:text="${board.contents}" readonly></textarea></th>
             </tr>
         </tbody>
     </table>
 
-    <div class="row">
-        <div class="col" th:if="${#authentication.name == board.name}">
-            <button class="w-10 btn btn-primary btn-lg"
-                    onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/board/{user_idx}/edit(user_idx=${board.user_idx})}'|"
-                    type="button" th:text="#{page.updateBoard}">수정</button>
-        </div>
-        <div class="col">
-            <button class="w-10 btn btn-secondary btn-lg"
-                    onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/board/boards}'|"
-                    type="button" th:text="#{button.list}">목록</button>
-        </div>
-
-        <div class="col" th:if="${#authentication.name == board.name}">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">삭제</button>
-            <button class="w-10 btn btn-secondary btn-lg"
-                    onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/board/{user_idx}/delete(user_idx=${board.user_idx})}'|"
-                    type="button" th:text="#{button.delete}">삭제</button>
-        </div>
+    <div class="text-right">
+        <button class="btn btn-primary" th:onclick="|location.href='@{/board/{user_idx}/edit(user_idx=${board.user_idx})}'|"
+                th:if="${#authentication.name == board.name}">수정</button>
+        <button class="btn btn-primary" th:onclick="|location.href='@{/board/{user_idx}/delete(user_idx=${board.user_idx})}'|"
+                th:if="${#authentication.name == board.name}">삭제</button>
+        <button class="btn btn-secondary" th:onclick="|location.href='@{/board/boards}'|">목록</button>
     </div>
 </div> <!-- /container -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
