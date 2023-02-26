@@ -54,12 +54,6 @@
     </table>
     <nav aria-label="Page navigation example">
     <ul style="pagination justify-content-center">
-<!--        <li class="page-item" th:classappend="${0==paging.startPage + 1}">-->
-<!--            <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${paging.startPage-1},nowPage=${param.nowPage})}">prev</a>-->
-<!--        </li>-->
-<!--        <li class="page-item">-->
-<!--            <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${paging.startPage},cntPerPage=${paging.cntPerPage})}" th:text="${paging.startPage}"></a>-->
-<!--        </li>-->
         <li th:if="${paging.nowPage != 1} ? 'disabled'">
             <a th:href="@{/board/boards(nowPage=${paging.startPage-1},cntPerPage=${paging.cntPerPage})}">&lt</a>
         </li>
