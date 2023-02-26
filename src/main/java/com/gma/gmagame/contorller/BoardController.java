@@ -27,10 +27,12 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public String boards(Model model)
+    public String boards(Model model, Integer user_idx)
     {
+        boardService.selectCnt(user_idx);
         List<Board> boards = boardService.BoardList();
         model.addAttribute("boards",boards);
+        System.out.println(user_idx);
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
@@ -43,14 +45,14 @@ public class BoardController {
         return "board/board";
     }
     @GetMapping("/add")
-    public String addForm(Model model){
+    public String addForm(@ModelAttribute Board board, Model model){
 
-        return "board/addForm";
+        return "board/addForm2";
     }
     @PostMapping("/add")
     public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes){
         boardService.BoardAdd(board);
-        return "redirect:/board";
+        return "redirect:/board/boards";
     }
 
     @RequestMapping("/{user_idx}/delete")

@@ -3,8 +3,11 @@ package com.gma.gmagame.model;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Map;
 
-@Data
+//@Data
+@Getter
+@Setter
 public class Board {
 //        private Integer boardIdx;//글번호
 //        private String title;//제목
@@ -20,9 +23,22 @@ public class Board {
         private String name;
         private Integer viewCnt;
         private Date datetime;
+        private Integer selectCnt;
+
+//        public Board(){
+//
+//        }
 
 
-        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime)
+    public Integer getSelectCnt() {
+        return selectCnt;
+    }
+
+    public void setSelectCnt(Integer selectCnt) {
+        this.selectCnt = selectCnt;
+    }
+
+    public Board(Integer user_idx, String title, String contents, Integer viewCnt, Date datetime)
         {
             this.user_idx=user_idx;
             this.title=title;
@@ -30,6 +46,7 @@ public class Board {
             this.viewCnt=viewCnt;
             this.datetime=datetime;
         }
+
 
 }
 

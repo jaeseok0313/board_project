@@ -3,9 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.BoardMapper">
+    <select id="getSelectCnt" resultType="Integer">
+        SELECT COUNT(*)
+        FROM BOARD_C
+    </select>
     <select id="selectAll" resultType="com.gma.gmagame.model.Board">
         SELECT *
         FROM BOARD_C
+        ORDER BY BOARD_IDX ASC
     </select>
     <select id="selectOne" resultType="com.gma.gmagame.model.Board">
         SELECT *
