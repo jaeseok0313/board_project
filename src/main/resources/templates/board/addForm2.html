@@ -22,13 +22,13 @@
     <div>
         <h4 class="mb-3">글 작성</h4>
 
-        <form action="item.html" th:action th:object="${board}" method="post">
+        <form th:action th:object="${board}" method="post">
             <!-- 게시글 생성시 로그인한 아이디로 -->
             <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
             <!-- 글 제목 입력 -->
             <div class="mb-3">
                 <div class="input">
-                    <input type="text" id="subject" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요.">
+                    <input type="text" id="subject" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요." required>
                     <div class="invalid-feedback" style="width: 100%;">
                         제목을 입력하세요!
                     </div>
