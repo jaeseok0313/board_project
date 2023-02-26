@@ -45,7 +45,6 @@ public class BoardController {
         paging = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
         model.addAttribute("paging", paging);
         model.addAttribute("boards", boardService.selectBoard(paging));
-        System.out.println(paging.getEndPage());
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
