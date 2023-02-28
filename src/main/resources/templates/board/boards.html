@@ -59,7 +59,7 @@
             <li class="page-item"th:if="${paging.nowPage != 1} ? 'disabled'">
                 <a class="page-link"href="#" th:href="@{/board/boards(nowPage=${paging.startPage-1},cntPerPage=${paging.cntPerPage})}">&lt</a>
             </li>
-            <li class="page-item" th:classappend="${nowPage==paging.nowPage} ? 'disabled'" th:each="nowPage : ${#numbers.sequence(paging.startPage,paging.endPage+1)}">
+            <li class="page-item" th:classappend="${nowPage==paging.nowPage} ? 'disabled'" th:each="nowPage : ${#numbers.sequence(paging.startPage,paging.endPage)}">
                 <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${nowPage},cntPerPage=${paging.cntPerPage})}" th:text="${nowPage}"></a>
             </li>
             <li class="page-item" th:if="${paging.endPage != paging.lastPage}">

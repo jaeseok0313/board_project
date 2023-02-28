@@ -70,9 +70,55 @@
         <button class="btn btn-secondary" th:onclick="|location.href='@{/board/boards}'|">목록</button>
     </div>
 </div> <!-- /container -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-<script src="form-validation.js"></script>
+
+<div class="container">
+    <h4>댓글</h4>
+    <div id="comment">
+    </div>
+
+    <form action="#" th:action="@{/board/comment/write}" method="post">
+        <input type="hidden" name="boardId" th:value="${board.user_idx}">
+        <div class="mb-3">
+            <label for="content" class="form-label"></label>
+            <textarea class="form-control" id="content" name="content" rows="4"
+                      placeholder="댓글을 작성해주세요."></textarea>
+        </div>
+        <button type="submit" class="me-2 btn btn-primary">write</button>
+    </form>
+</div>
+
 <footer th:replace="fragments/common :: footer"/>
+<script th:inline="javascript">
+        $(document).ready(function () {
+            getComments();
+        })
+
+        function getComments() {
+            var boardId = $('input[name=boardId]').val()
+            console.log(boardId);
+
+            $.ajax({
+                type: 'GET',
+                url: '/board/comment/getCommentList',
+                data: { boardId },
+                success: function (response) {
+                    console.log(boardId);
+                    var a = '';
+                    var size = 0;
+                    $.each(response, function (key, value) {
+                    console.log(value);
+                        size = size + 1;
+                        a += '<hr /><div>'
+                        a += '<input type="hidden" id="commentId" name="commentId" value="' + value.CREATORID + '">'
+                        a += '<span id="writer" style="font-weight: bold;">' + value.creatorID + '</span>'
+                        a += '<pre id="' + value.creatorID + '" name="comment' + value.creatorID + '" style="margin-bottom: 5px; font-size: large;">' + value.commentContent + '</pre>'
+
+                    });
+                    $("#comment").html(a)
+                },
+                complete: function () { }
+            })
+        }
+        </script>
 </body>
 </html>

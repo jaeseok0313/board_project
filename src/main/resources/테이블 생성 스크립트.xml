@@ -28,6 +28,14 @@ CREATE TABLE board (
     PRIMARY KEY(board_idx)
 );
 
+create table comment(
+  comment_number INTEGER not null primary key, //댓글 seq
+  board_number INTEGER not null,    //댓글이 달릴 게시글 seq
+  comment_detail VARCHAR2(300) not null, //댓글 내용
+  creator_id varchar2(50) not null, //댓글 작성자
+  created_date DATE not null); // 댓글 작성 시간
+  }
+
 
 
 
