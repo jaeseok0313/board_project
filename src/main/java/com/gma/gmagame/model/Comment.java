@@ -13,6 +13,7 @@ public class Comment {
     private String creatorID;
     private Date commentDate;
 
+
     public Comment(Integer commentNumber, Integer bno, String commentContent,String creatorID, Date commentDate)
     {
         this.commentNumber=commentNumber;
