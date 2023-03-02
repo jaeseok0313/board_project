@@ -79,6 +79,7 @@ public class BoardController {
         Optional<Board> result =boardService.BoardOne(user_idx);
         Board board = result.get();
         model.addAttribute("board",board);
+        System.out.println(model);
 
         return "board/editForm";
     }

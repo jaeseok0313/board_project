@@ -23,6 +23,17 @@ public class User implements UserDetails {
     private String status;
     private Date create_date;
 
+    public User(Integer user_no, String user_id, String user_pwd, String user_name, String admin_yn, String phone_number, String address, String status, Date create_date){
+        this.user_no=user_no;
+        this.user_id=user_id;
+        this.user_pwd=user_pwd;
+        this.user_name=user_name;
+        this.admin_yn=admin_yn;
+        this.phone_number=phone_number;
+        this.address=address;
+        this.status=status;
+        this.create_date=create_date;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.admin_yn));

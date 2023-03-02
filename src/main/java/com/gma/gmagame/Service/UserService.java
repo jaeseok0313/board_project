@@ -2,23 +2,18 @@ package com.gma.gmagame.Service;
 import com.gma.gmagame.mapper.UserMapper;
 import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
-@Mapper
-@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     @Autowired
-    private final UserMapper userMapper;
+    private UserMapper userMapper;
     @Transactional
     public void joinUser(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -38,9 +33,8 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
-
-
-
-
+    public User getMypage(String user_id) {
+        return userMapper.getMypage(user_id);
+    }
 
 }

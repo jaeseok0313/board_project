@@ -16,11 +16,28 @@
         INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
         VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE)
     </insert>
+
     <select id="getUserAccount" resultType="com.gma.gmagame.model.User" parameterType="com.gma.gmagame.model.User">
         SELECT *
         FROM USER_BAS
         WHERE USER_ID = #{user_id}
     </select>
+
+    <select id="getMypage" resultType="com.gma.gmagame.model.User" parameterType="com.gma.gmagame.model.User">
+        SELECT *
+        FROM USER_BAS
+        WHERE USER_ID = #{user_id}
+    </select>
+
+    <!--
+    <update id="updateMypage" parameterType="com.gma.gmagame.model.User">
+        UPDATE USER_BAS
+           SET USER_NAME = #{user_name}
+             , PHONE_NUMBER = #{phone_number}
+             , ADDRESS = #{address}
+         WHERE USER_ID = #{user_id}
+    </update>
+    -->
 </mapper>
 
 

@@ -3,16 +3,19 @@ package com.gma.gmagame.contorller;
 import com.gma.gmagame.Service.UserService;
 import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/account")
 @RequiredArgsConstructor
 public class AccountController {
 
+    @Autowired
     private final UserService userService;
 
 
@@ -32,6 +35,18 @@ public class AccountController {
         userService.joinUser(user);
         return "redirect:/";
     }
+
+    @GetMapping("/mypage")
+    //@RequestMapping(value = "mypage", method = RequestMethod.GET)
+    public String mypage(Principal principal, Model model){
+
+        User user = userService.getMypage(principal.getName());
+        model.addAttribute("user", user);
+        System.out.println(user);
+        System.out.println(model);
+        return "account/mypage";
+    }
+
 }
 // this.userService.saveUser(user);
 //

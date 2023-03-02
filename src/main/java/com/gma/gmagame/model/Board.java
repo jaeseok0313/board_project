@@ -23,7 +23,7 @@ public class Board {
         private Integer viewCnt;
         private Date datetime;
 
-        public Board(Integer rownum, Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name)
+        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name)
         {
 
             this.user_idx=user_idx;
