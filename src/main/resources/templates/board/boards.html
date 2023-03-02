@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymmeleaf.org">
+<html xmlns:th="http://www.thymmeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/common :: head('게시판')">
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -68,10 +68,21 @@
         </ul>
     </nav>
     <div class="text-right">
-        <a type="button" class="btn btn-primary" onclick="location.href='addForm.html'"
-           th:onclick="|location.href='@{/board/add}'|">쓰기</a>
+        <li sec:authorize="isAnonymous()" >
+            <a type="button" id=Comment class="btn btn-primary">쓰기</a>
+        </li>
+        <li sec:authorize="isAuthenticated()" >
+            <a type="button" class="btn btn-primary" onclick="location.href='addForm.html'"
+               th:onclick="|location.href='@{/board/add}'|">쓰기</a>
+        </li>
+
     </div>
 </div>
 <footer th:replace="fragments/common :: footer"/>
+<script>
+$('#Comment').click(function() {
+alert("로그인해줘");
+})
+</script>
 </body>
 </html>

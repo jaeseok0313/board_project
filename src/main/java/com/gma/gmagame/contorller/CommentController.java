@@ -6,6 +6,7 @@ import com.gma.gmagame.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,7 +17,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @RequestMapping("/write")
+    @RequestMapping(value="/write" , method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public void commentWrite(@RequestParam(name = "boardId", required = false) Integer boardId,
                              @RequestParam(name = "content",required = false) String content,
