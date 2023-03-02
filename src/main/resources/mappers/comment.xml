@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gma.gmagame.mapper.CommentMapper">
+    <insert id="insertComment" parameterType="com.gma.gmagame.model.Comment">
+        <selectKey resultType="Integer" keyProperty="commentNumber" order="BEFORE">
+            SELECT NVL(MAX(comment_Number),0)+1
+            FROM comment_aa
+        </selectKey>
+        INSERT INTO comment_aa (comment_Number,bno,comment_detail,creator_ID,created_date)
+        VALUES(#{commentNumber},#{bno},#{commentContent},#{creatorID},SYSDATE)
+    </insert>
+
+    <select id="selectCommentList" resultType="com.gma.gmagame.model.Comment">
+        SELECT *
+        FROM comment_aa
+        WHERE bno=#{bno}
+    </select>
+    <update id="updateComment" parameterType="com.gma.gmagame.model.Comment">
+        UPDATE comment_aa
+        SET comment_detail=#{commentContent}
+        WHERE comment_Number=#{commentNumber}
+    </update>
+    <delete id="deleteComment" parameterType="com.gma.gmagame.model.Comment">
+        DELETE
+        FROM comment_aa
+        WHERE comment_Number=#{commentNumber}
+    </delete>
+
+</mapper>
