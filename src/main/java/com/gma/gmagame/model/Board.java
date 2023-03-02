@@ -25,7 +25,6 @@ public class Board {
 
         public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name)
         {
-
             this.user_idx=user_idx;
             this.title=title;
             this.contents=contents;
