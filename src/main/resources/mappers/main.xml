@@ -29,15 +29,16 @@
         WHERE USER_ID = #{user_id}
     </select>
 
-    <!--
-    <update id="updateMypage" parameterType="com.gma.gmagame.model.User">
+    <update id="updateUser" parameterType="com.gma.gmagame.model.User">
         UPDATE USER_BAS
-           SET USER_NAME = #{user_name}
+           SET USER_ID = #{user_id}
+             , USER_PWD = #{user_pwd}
+             , USER_NAME = #{user_name}
              , PHONE_NUMBER = #{phone_number}
              , ADDRESS = #{address}
          WHERE USER_ID = #{user_id}
     </update>
-    -->
+
 </mapper>
 
 

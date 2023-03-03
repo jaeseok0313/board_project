@@ -17,73 +17,59 @@
 <div class="container">
     <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4 " src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h2>Checkout form</h2>
+        <h2>마이페이지</h2>
     </div>
 
     <div>
         <div>
-            <h4 class="mb-3">마이페이지</h4>
-            <!-- 이름입력 -->
             <form method="post" th:action="@{/account/mypage}">
-                <!--
+
                 <div class="mb-3">
-                    <div class="input">
-                        <label for="user_name">이름</label>
-                        <input type="text" class="form-control" id="user_name" name="user_name" th:text="*{user_name}" required>
-                        <div class="invalid-feedback" style="width: 100%;">
-                            Valid first name is required.
-                        </div>
+                    <label for="user_name">이름</label>
+                    <div class="mypage-group">
+                        <input type="text" id="user_name" name="user_name" class="form-control" th:value="${user.user_name}">
                     </div>
                 </div>
-                -->
                 <!-- 유저아이디 입력 -->
                 <div class="mb-3">
                     <label for="user_id">ID</label>
-                    <div class="input-group">
-                        <!--<input type="text" class="form-control" id="user_id"name="user_id" required>-->
-                        <span id="user_id" name="user_id" class="form-detail" th:text="${user.user_id}" readonly></span>
-                        <div class="invalid-feedback" style="width: 100%;">
-                            Your username is required.
-                        </div>
+                    <div class="mypage-group">
+                        <input type="text" id="user_id" name="user_id" class="form-control" th:value="${user.user_id}" >
                     </div>
                 </div>
                 <!-- 비밀번호 입력 -->
                 <div class="mb-3">
-                    <div class="input">
-                        <label for="user_pwd">비밀번호</label>
-                        <input type="password" class="form-control" id="user_pwd" name="user_pwd" required>
-                        <div class="invalid-feedback" style="width: 100%;">
-                            password input
-                        </div>
+                    <label for="user_pwd">비밀번호</label>
+                    <div class="mypage-group">
+                        <input type="password" id="user_pwd" name="user_pwd" class="form-control" th:value="${user.user_pwd}">
                     </div>
                 </div>
                 <!-- 사용자 권한 여부 -->
                 <div class="mb-3">
                     <label for="admin_yn">권한여부</label>
-                    <div class="input-group">
-                        <span class="form-control" id="admin_yn"name="admin_yn"></span>
+                    <div class="mypage-group">
+                        <span id="admin_yn" name="admin_yn" class="form-control" th:text="${user.admin_yn}" readonly></span>
+                    </div>
+                    <div>
+                        <a type="button" id=admin_apply class="btn btn-primary">권한신청</a>
                     </div>
                 </div>
                 <!-- 주소 입력 -->
                 <div class="mb-3">
                     <label for="address">주소</label>
-                    <input type="text" class="form-control" id="address" name="address" required>
-                    <div class="invalid-feedback">
-                        Please enter your shipping address.
+                    <div class="mypage-group">
+                        <input type="text" id="address" name="address" class="form-control" th:value="${user.address}">
                     </div>
                 </div>
                 <!-- 휴대폰 번호 입력 -->
                 <div class="mb-3">
-                    <div class="input">
-                        <label for="phone_number">휴대폰 번호</label>
+                    <label for="phone_number">휴대폰 번호</label>
+                    <div class="mypage-group">
                         <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                               class="form-control" id="phone_number" name="phone_number" required/>
-                        <div class="invalid-feedback" style="width: 100%;">
-                            password input
-                        </div>
+                               class="form-control" id="phone_number" name="phone_number" th:value="${user.phone_number}"/>
                     </div>
                 </div>
-                <!-- 회원가입 버튼 -->
+
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">저장</button>
             </form>

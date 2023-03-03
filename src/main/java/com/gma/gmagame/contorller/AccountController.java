@@ -3,7 +3,6 @@ package com.gma.gmagame.contorller;
 import com.gma.gmagame.Service.UserService;
 import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
     private final UserService userService;
 
 
@@ -45,6 +43,12 @@ public class AccountController {
         System.out.println(user);
         System.out.println(model);
         return "account/mypage";
+    }
+
+    @PostMapping("/mypage")
+    public String updateUser(Principal principal, @ModelAttribute User user) {
+        userService.UserUpdate(user);
+        return "redirect:/";
     }
 
 }

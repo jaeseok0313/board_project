@@ -12,4 +12,6 @@ public interface UserMapper {
     User getUserAccount(String user_id);
 
     User getMypage(String user_id);
+
+    public void updateUser(User user);
 }

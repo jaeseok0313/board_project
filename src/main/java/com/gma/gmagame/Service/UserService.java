@@ -37,4 +37,7 @@ public class UserService implements UserDetailsService {
         return userMapper.getMypage(user_id);
     }
 
+    public void UserUpdate(User user) {
+        userMapper.updateUser(user);
+    }
 }
