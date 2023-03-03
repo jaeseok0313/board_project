@@ -10,12 +10,25 @@ public class Paging {
     private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
     private int cntPage = 5;
 
+    private String keyword;
+    private String condition;
+
     public Paging() {
     }
     public Paging(int total, int nowPage, int cntPerPage) {
         setNowPage(nowPage);
         setCntPerPage(cntPerPage);
         setTotal(total);
+        setKeyword(keyword);
+        calcLastPage(getTotal(), getCntPerPage());
+        calcStartEndPage(getNowPage(), cntPage);
+        calcStartEnd(getNowPage(), getCntPerPage());
+    }
+    public Paging(int total, int nowPage, int cntPerPage,String keyword) {
+        setNowPage(nowPage);
+        setCntPerPage(cntPerPage);
+        setTotal(total);
+        setKeyword(keyword);
         calcLastPage(getTotal(), getCntPerPage());
         calcStartEndPage(getNowPage(), cntPage);
         calcStartEnd(getNowPage(), getCntPerPage());
@@ -40,7 +53,10 @@ public class Paging {
         setEnd(nowPage * cntPerPage);
         setStart(getEnd() - cntPerPage + 1);
     }
-
+    public String getKeyword()
+    {
+        return keyword;
+    }
     public int getNowPage() {
         return nowPage;
     }
@@ -95,10 +111,10 @@ public class Paging {
     public void getCntPage(int cntPage) {
         this.cntPage = cntPage;
     }
-    @Override
-    public String toString() {
-        return "Paging [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total=" + total
-                + ", cntPerPage=" + cntPerPage + ", lastPage=" + lastPage + ", start=" + start + ", end=" + end
-                + ", cntPage=" + cntPage + "]";
-    }
+//    @Override
+//    public String toString() {
+//        return "Paging [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total=" + total
+//                + ", cntPerPage=" + cntPerPage + ", lastPage=" + lastPage + ", start=" + start + ", end=" + end
+//                + ", cntPage=" + cntPage + "]";
+//    }
 }

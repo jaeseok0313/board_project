@@ -56,17 +56,24 @@
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
+            <input type="hidden" id="keyword" name="keyword" value="${paging.keyword}">
             <li class="page-item"th:if="${paging.nowPage != 1} ? 'disabled'">
                 <a class="page-link"href="#" th:href="@{/board/boards(nowPage=${paging.startPage-1},cntPerPage=${paging.cntPerPage})}">&lt</a>
             </li>
             <li class="page-item" th:classappend="${nowPage==paging.nowPage} ? 'disabled'" th:each="nowPage : ${#numbers.sequence(paging.startPage,paging.endPage)}">
-                <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${nowPage},cntPerPage=${paging.cntPerPage})}" th:text="${nowPage}"></a>
+                <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${nowPage},cntPerPage=${paging.cntPerPage},searchKeyword=${paging.getKeyword()})}" th:text="${nowPage}"></a>
             </li>
             <li class="page-item" th:if="${paging.endPage != paging.lastPage}">
                 <a class="page-link" href="#" th:href="@{/board/boards(nowPage=${paging.endPage+1},cntPerPage=${paging.cntPerPage})}">&gt</a>
             </li>
         </ul>
     </nav>
+    <form th:href="@{/board/boards(nowPage=${nowPage},cntPerPage=${paging.cntPerPage},searchKeyword=${paging.keyword})}">
+        <div class="search-wrap clearfix">
+            <button type="submit" class="btn btn-primary search-btn" style="margin-right: 24%;">검색</button>
+            <input type="text" name="keyword" class="form-control search-input" th:value="${paging.keyword}" style="width: 200px; ">
+        </div>
+    </form>
     <div class="text-right">
         <li sec:authorize="isAnonymous()" >
             <a type="button" id=Comment class="btn btn-primary">쓰기</a>

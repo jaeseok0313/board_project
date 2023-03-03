@@ -31,7 +31,7 @@
 
       <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/account/login}"
         sec:authorize="!isAuthenticated()">로그인</a>
-      <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/account/register}"
+      <a class="btn btn-secondary my-2 my-sm-0" th:href="@{/account/register}"
          sec:authorize="!isAuthenticated()">회원가입</a>
       <!--<input type="hidden" name="loginUser" th:value="${#authentication.name}">-->
       <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/account/mypage}"
