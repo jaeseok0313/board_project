@@ -49,9 +49,8 @@ public class BoardService {
     public List<Board> selectBoard(Paging vo) {
         return boardMapper.selectBoard(vo);
     }
-    public List<Board> selectBoardKeyWord(Paging vo,String keyword) {
-        vo.setKeyword(keyword);
-        return boardMapper.selectBoardKeyWord(vo,keyword);
+    public List<Board> selectBoardKeyWord(Paging vo) {
+        return boardMapper.selectBoardKeyWord(vo);
 
     }
 

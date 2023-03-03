@@ -29,32 +29,30 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/boards")
-    public String boardList(Paging vo, Model model
+    public String boardList(Paging vo,Paging vo2, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage
-            , @RequestParam(value="keyword",required = false)String keyword) {
+            , @RequestParam(value="keyword", required=false)String keyword) {
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
             cntPerPage = "5";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "2";
+            cntPerPage = "5";
         }
-
         if(keyword==null) {
             int total = boardService.countBoard();
             vo = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
             model.addAttribute("paging", vo);
             model.addAttribute("boards", boardService.selectBoard(vo));
-        }else{
+        }else if(keyword != null){
             int total2 = boardService.searchCountBoard(keyword);
-            vo = new Paging(total2, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),keyword);
-            model.addAttribute("paging", vo);
-            model.addAttribute("boards", boardService.selectBoardKeyWord(vo,keyword));
+            vo2 = new Paging(total2, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),keyword);
+            model.addAttribute("paging", vo2);
+            model.addAttribute("boards", boardService.selectBoardKeyWord(vo2));
+            System.out.println(cntPerPage);
         }
-        System.out.println(vo.getKeyword());
-
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
