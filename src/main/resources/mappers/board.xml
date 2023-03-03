@@ -9,18 +9,52 @@
     </select>
     <select id="countBoard" resultType="int">
         SELECT COUNT(*) FROM board_aa
+        <include refid="search" />
     </select>
     <!-- 페이징 처리 후 게시글 조회 -->
     <select id="selectBoard" resultType="com.gma.gmagame.model.Board">
+
+        SELECT	ed.*
+            FROM	(
+                SELECT	rd.*
+                FROM	(
+                    SELECT	ROWNUM RN
+                        ,od2.*
+                    FROM	(
+                        SELECT	od.*
+                        FROM	(
+                            SELECT BOARD_IDX
+                            , TITLE
+                            , HIT_CNT
+                            , CREATED_DATETIME
+                            , CREATOR_ID
+                            FROM BOARD_AA
+                            <include refid="search" />
+                            ) od
+                            ORDER BY od.BOARD_IDX
+                        ) od2
+                    ) rd
+                WHERE	rd.RN <![CDATA[<=]]> #{end}
+                ) ed
+        WHERE	ed.RN <![CDATA[>=]]> #{start}
+
+
+        <!--
         SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
         FROM ( SELECT ROWNUM RN, A.*
-        FROM ( SELECT * FROM board_aa ORDER BY board_idx asc ) A )
+        FROM ( SELECT * FROM board_aa
+        <include refid="search" />
+        ORDER BY board_idx asc ) A )
         WHERE RN BETWEEN #{start} AND #{end}
+        -->
+
+
     </select>
 
     <select id="count" resultType="int">
         select count(*) from board_aa
     </select>
+
     <select id="selectOne" resultType="com.gma.gmagame.model.Board">
         SELECT *
         FROM board_aa
@@ -54,4 +88,23 @@
         SET title =#{title},contents=#{contents}
         WHERE board_idx=#{user_idx}
     </update>
+    <!--
+    <select id="selectBoardKeyWord" resultType="com.gma.gmagame.model.Board">
+        SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
+        FROM ( SELECT ROWNUM RN, A.*
+        FROM ( SELECT * FROM board_aa ORDER BY board_idx asc ) A )
+        WHERE RN BETWEEN #{start} AND #{end}
+        AND title LIKE '%' ||#{keyword}||'%'
+    </select>
+    -->
+    <select id="searchCountBoard" resultType="int">
+        SELECT COUNT(*) FROM board_aa
+        WHERE title LIKE '%' ||#{keyword}||'%'
+    </select>
+
+    <sql id="search">
+        <if test="keyword != null and keyword != ''">
+            WHERE title LIKE '%' ||#{keyword}||'%'
+        </if>
+    </sql>
 </mapper>

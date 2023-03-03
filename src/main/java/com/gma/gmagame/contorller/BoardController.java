@@ -31,7 +31,8 @@ public class BoardController {
     @GetMapping("/boards")
     public String boardList(Paging vo, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
-            , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+            , @RequestParam(value="cntPerPage", required=false)String cntPerPage
+            , @RequestParam(value="keyword",required = false)String keyword) {
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
             cntPerPage = "5";
@@ -41,10 +42,17 @@ public class BoardController {
             cntPerPage = "2";
         }
 
+        if(keyword==null) {
             int total = boardService.countBoard();
             vo = new Paging(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
             model.addAttribute("paging", vo);
             model.addAttribute("boards", boardService.selectBoard(vo));
+        }else if(keyword != null){
+            int total2 = boardService.searchCountBoard(keyword);
+            vo = new Paging(total2, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),keyword);
+            model.addAttribute("paging", vo);
+            model.addAttribute("boards", boardService.selectBoard(vo));
+        }
         System.out.println(vo.getKeyword());
 
         return "board/boards";
