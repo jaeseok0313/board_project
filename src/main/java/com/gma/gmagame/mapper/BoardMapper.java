@@ -24,11 +24,10 @@ public interface BoardMapper {
     public void updateOne(Board board);
 
     public int countBoard();
-    public int searchCountBoard(String keyword);
+
     // 페이징 처리 게시글 조회
     public List<Board> selectBoard(Paging vo);
 
-    public List<Board> selectBoardKeyWord(Paging vo,String keyword);
 
 
 

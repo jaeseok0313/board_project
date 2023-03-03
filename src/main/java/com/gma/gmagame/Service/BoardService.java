@@ -42,18 +42,11 @@ public class BoardService {
     public int countBoard() {
         return boardMapper.countBoard();
     }
-    public int searchCountBoard(String keyword) {
-        return boardMapper.searchCountBoard(keyword);
-    }
 
     public List<Board> selectBoard(Paging vo) {
         return boardMapper.selectBoard(vo);
     }
-    public List<Board> selectBoardKeyWord(Paging vo,String keyword) {
-        vo.setKeyword(keyword);
-        return boardMapper.selectBoardKeyWord(vo,keyword);
 
-    }
 
 
 }
