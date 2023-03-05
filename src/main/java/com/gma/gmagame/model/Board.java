@@ -22,8 +22,9 @@ public class Board {
         private String name;
         private Integer viewCnt;
         private Date datetime;
+        private Integer likes;
 
-        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name)
+        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name, Integer likes)
         {
             this.user_idx=user_idx;
             this.title=title;
@@ -31,6 +32,7 @@ public class Board {
             this.viewCnt=viewCnt;
             this.datetime=datetime;
             this.name=name;
+            this.likes=likes;
         }
 
 

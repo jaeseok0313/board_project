@@ -53,8 +53,6 @@ public class BoardController {
             model.addAttribute("paging", vo);
             model.addAttribute("boards", boardService.selectBoard(vo));
         }
-        System.out.println(vo.getKeyword());
-
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
@@ -98,6 +96,5 @@ public class BoardController {
         boardService.BoardUpdate(board);
         return "redirect:/board/{user_idx}";
     }
-
 
 }

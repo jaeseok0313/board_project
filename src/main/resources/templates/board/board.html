@@ -39,25 +39,35 @@
     <!--<h2>게시판</h2>-->
 </div>
 <div class="container">
+    <input type="hidden" name="userId" th:value="${#authentication.name}">
     <table class="table">
         <tbody>
             <tr>
                 <th scope="row"><strong class="t-15">제목</strong></th>
-                <td colspan="5"><span id="boardSubject" name="boardSubject" class="form-detail" th:text="${board.title}" readonly></span></td>
+                <td colspan="3"><span id="boardSubject" name="boardSubject" class="form-detail" th:text="${board.title}" readonly></span></td>
+                <th scope="row"><strong class="t-15">조회수</strong></th>
+                <td><span type="text" id="viewCnt" name="viewCnt" class="form-detail" value="10" th:text="${board.viewCnt}" readonly></span></td>
             </tr>
             <tr>
                 <th scope="row"><strong class="t-15">작성자</strong></th>
                 <td><span type="text" id="writer" name="writer" class="form-detail" th:text="${board.name}" readonly></span></td>
                 <th scope="row"><strong class="t-15">작성일</strong></th>
-                <td><span type="text" id="datetime" name="datetime" class="form-detail" value="10" th:text="${board.datetime}" readonly></span></td>
-                <th scope="row"><strong class="t-15">조회수</strong></th>
-                <td><span type="text" id="viewCnt" name="viewCnt" class="form-detail" value="10" th:text="${board.viewCnt}" readonly></span></td>
+                <td><span type="text" id="datetime" name="datetime" class="form-detail" value="10" th:text="${#dates.format(board.datetime, 'YYYY-MM-dd HH:mm')}" readonly></span></td>
+                <th scope="row"><strong class="t-15">추천</strong></th>
+                <td><span type="text" id="likes" name="likes" class="form-detail" value="10" th:text="${board.likes}" readonly></span></td>
+
             </tr>
             <tr>
                 <th scope="row" colspan="6"><strong class="t-15">내용</strong></th>
             </tr>
             <tr>
                 <th scope="row" colspan="6"><textarea type="text" id="contents" name="contents" class="form-text" th:text="${board.contents}" readonly></textarea></th>
+            </tr>
+            <tr>
+                <th colspan="6" class="text-center">
+                    <button type="button" class="btn btn-warning" id="Like_plus">추천</button>
+                    <button type="button" class="btn btn-danger" id="hate_btn">비추천</button>
+                </th>
             </tr>
         </tbody>
     </table>
@@ -78,6 +88,7 @@
     </div>
     <div class="comment-box">
         <input type="hidden" name="boardId" th:value="${board.user_idx}">
+
         <div class="comment-count">댓글 <span id="count">0</span></div>
         <div class="comment-sbox">
             <textarea class="comment-input" id="content" cols="80" rows="2" name="content" ></textarea>
@@ -247,8 +258,22 @@
 		}
 		$('#Comment').click(function() {
 				alert("로그인해줘");
-			})
+		})
 
-        </script>
+        $('#Like_plus').click(function() {
+
+   			//Json으로 전달할 파라미터 변수선언
+   			var boardId = $('input[name=boardId]').val();
+            var userId = $('input[name=userId]').val();
+
+   			console.log(boardId);
+   			console.log(userId);
+
+
+		});// 댓글등록 이벤트 끝
+
+
+
+</script>
 </body>
 </html>
