@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.LikesMapper">
-    <insert id="plusLike">
+    <insert id="plusLike" parameterType="com.gma.gmagame.model.Likes">
         insert into LIKES_BAS(LIKENO , BNO , USER_ID)
         values((SELECT NVL(MAX(likeno), 0) + 1 FROM LIKES_BAS) ,#{bno} ,#{userId})
     </insert>

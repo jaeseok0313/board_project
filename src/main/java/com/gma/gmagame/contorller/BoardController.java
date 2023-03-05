@@ -83,7 +83,7 @@ public class BoardController {
         return "redirect:/board/boards";
     }
     @GetMapping("/{user_idx}/edit")
-     public String editForm(@PathVariable("user_idx") Integer user_idx,Model model){
+    public String editForm(@PathVariable("user_idx") Integer user_idx,Model model){
         Optional<Board> result =boardService.BoardOne(user_idx);
         Board board = result.get();
         model.addAttribute("board",board);
@@ -96,5 +96,6 @@ public class BoardController {
         boardService.BoardUpdate(board);
         return "redirect:/board/{user_idx}";
     }
+
 
 }

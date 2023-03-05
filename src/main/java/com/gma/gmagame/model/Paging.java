@@ -1,10 +1,10 @@
 package com.gma.gmagame.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class Paging {
 
     private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
@@ -19,7 +19,6 @@ public class Paging {
         setNowPage(nowPage);
         setCntPerPage(cntPerPage);
         setTotal(total);
-        setKeyword(keyword);
         calcLastPage(getTotal(), getCntPerPage());
         calcStartEndPage(getNowPage(), cntPage);
         calcStartEnd(getNowPage(), getCntPerPage());
@@ -29,6 +28,7 @@ public class Paging {
         setCntPerPage(cntPerPage);
         setTotal(total);
         setKeyword(keyword);
+
         calcLastPage(getTotal(), getCntPerPage());
         calcStartEndPage(getNowPage(), cntPage);
         calcStartEnd(getNowPage(), getCntPerPage());

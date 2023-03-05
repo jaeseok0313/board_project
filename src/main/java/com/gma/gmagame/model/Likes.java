@@ -14,7 +14,9 @@ public class Likes {
     private Integer likeCheck;
     private Date likeDate;
 
-    public Likes(Integer likeNo, Integer bno, String userId, Integer rno, Integer likeCheck, Date likeDate)
+    private Integer likes;
+
+    public Likes(Integer likeNo, Integer bno, String userId, Integer rno, Integer likeCheck, Date likeDate,Integer likes)
     {
         this.likeNo=likeNo;
         this.bno=bno;
@@ -22,6 +24,7 @@ public class Likes {
         this.rno=rno;
         this.likeCheck=likeCheck;
         this.likeDate=likeDate;
+        this.likes=likes;
     }
 
 
