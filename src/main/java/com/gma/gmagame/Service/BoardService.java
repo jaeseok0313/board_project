@@ -51,9 +51,7 @@ public class BoardService {
     }
 
     public List<Board> selectBoardKeyWord(Paging vo) {
-
         return boardMapper.selectBoardKeyWord(vo);
-
     }
 
 
