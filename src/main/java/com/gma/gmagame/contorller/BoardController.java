@@ -53,8 +53,6 @@ public class BoardController {
             model.addAttribute("paging", vo);
             model.addAttribute("boards", boardService.selectBoard(vo));
         }
-        System.out.println(vo.getKeyword());
-
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
@@ -85,7 +83,7 @@ public class BoardController {
         return "redirect:/board/boards";
     }
     @GetMapping("/{user_idx}/edit")
-     public String editForm(@PathVariable("user_idx") Integer user_idx,Model model){
+    public String editForm(@PathVariable("user_idx") Integer user_idx,Model model){
         Optional<Board> result =boardService.BoardOne(user_idx);
         Board board = result.get();
         model.addAttribute("board",board);

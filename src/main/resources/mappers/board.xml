@@ -15,13 +15,40 @@
     <select id="selectBoard" resultType="com.gma.gmagame.model.Board">
         SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
         FROM ( SELECT ROWNUM RN, A.*
-        FROM ( SELECT * FROM board_aa ORDER BY board_idx asc ) A )
+        FROM ( SELECT * FROM board_aa
+        <include refid="search" />
+        ORDER BY board_idx asc ) A )
         WHERE RN BETWEEN #{start} AND #{end}
+
+        <!--        SELECT   ed.*-->
+        <!--        FROM   (-->
+        <!--        SELECT   rd.*-->
+        <!--        FROM   (-->
+        <!--        SELECT   ROWNUM RN-->
+        <!--        ,od2.*-->
+        <!--        FROM   (-->
+        <!--        SELECT   od.*-->
+        <!--        FROM   (-->
+        <!--        SELECT BOARD_IDX-->
+        <!--        , TITLE-->
+        <!--        , HIT_CNT-->
+        <!--        , CREATED_DATETIME-->
+        <!--        , CREATOR_ID-->
+        <!--        FROM BOARD_AA-->
+        <!--        <include refid="search" />-->
+        <!--        ) od-->
+        <!--        ORDER BY od.BOARD_IDX-->
+        <!--        ) od2-->
+        <!--        ) rd-->
+        <!--        WHERE   rd.RN <![CDATA[<=]]> #{end}-->
+        <!--        ) ed-->
+        <!--        WHERE   ed.RN <![CDATA[>=]]> #{start}-->
     </select>
 
     <select id="count" resultType="int">
         select count(*) from board_aa
     </select>
+
     <select id="selectOne" resultType="com.gma.gmagame.model.Board">
         SELECT *
         FROM board_aa
@@ -68,8 +95,9 @@
         SELECT COUNT(*) FROM board_aa
         WHERE title LIKE '%' ||#{keyword}||'%'
     </select>
+
     <sql id="search">
-        <if test="condition == 'title'">
+        <if test="keyword != null and keyword != ''">
             WHERE title LIKE '%' ||#{keyword}||'%'
         </if>
     </sql>

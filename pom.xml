@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.godcoder</groupId>
-	<artifactId>myhome</artifactId>
+	<artifactId>gmagame</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>myhome</name>
 	<description>Demo project for Spring Boot</description>
