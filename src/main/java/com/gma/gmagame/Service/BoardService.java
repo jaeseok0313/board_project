@@ -39,6 +39,10 @@ public class BoardService {
         boardMapper.updateOne(board);
     }
 
+    public int updateLike(Board board){
+        return boardMapper.updateLike(board);
+    }
+
     public int countBoard() {
         return boardMapper.countBoard();
     }

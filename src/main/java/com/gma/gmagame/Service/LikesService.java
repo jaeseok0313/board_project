@@ -1,6 +1,7 @@
 package com.gma.gmagame.Service;
 
 import com.gma.gmagame.mapper.LikesMapper;
+import com.gma.gmagame.model.Board;
 import com.gma.gmagame.model.Likes;
 import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LikesService {
+
     @Autowired
     private LikesMapper likesMapper;
 
@@ -20,6 +22,12 @@ public class LikesService {
 
     public int likeCheck(Integer bno,String memberId){
         return likesMapper.likeCheck(bno, memberId);
+    }
+    public Integer getLike(Integer bno){
+        return likesMapper.getLike(bno);
+    }
+    public int updateLike(Integer bno){
+        return likesMapper.updateLike(bno);
     }
 
 }

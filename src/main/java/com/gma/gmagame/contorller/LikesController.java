@@ -24,20 +24,23 @@ public class LikesController {
     @Autowired
     private LikesService likesService;
 
+    private BoardService boardService;
+
     @RequestMapping(value="/likePlus")
     @ResponseBody
-    public void likePlus(@RequestParam(name = "boardId", required = false) Integer boardId,
-                         @RequestParam(name = "userId",required = false) String userId,
-                         @RequestParam(name = "likes",required = false) Integer likes,
-                            Principal principal, Likes likses) {
-        System.out.println("컨트롤러 연결 성공");
-        System.out.println(boardId);
-        System.out.println(likes);
-        System.out.println(principal.getName());
-
-        if(likesService.likeCheck(boardId,principal.getName())==0) {
-            likesService.LikesPlus(boardId, principal.getName(), likses);
+    public int likePlus(@RequestParam(name = "boardId", required = false) Integer boardId,
+                            Principal principal, Likes likses) { //board_no 받아옴
+        if(likesService.likeCheck(boardId, principal.getName())==0)
+        {
+            likesService.LikesPlus(boardId, principal.getName(), likses);//플러스해줫음
+            likesService.updateLike(boardId); //업데이트해줌
+            return likesService.getLike(boardId);//카운트 반환->ajax Like_PLUS로 데이터전달
         }
+        else{
+            return 0;
+        }
+
+
     }
 //    @PostMapping
 //    public String updateLike(int bno, String userId,String creatorId)throws Exception {

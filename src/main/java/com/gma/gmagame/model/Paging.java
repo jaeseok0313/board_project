@@ -3,6 +3,7 @@ package com.gma.gmagame.model;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 public class Paging {
@@ -15,6 +16,9 @@ public class Paging {
 
     public Paging() {
     }
+    public Paging(String keyword) {
+        setKeyword(keyword);
+    }
     public Paging(int total, int nowPage, int cntPerPage) {
         setNowPage(nowPage);
         setCntPerPage(cntPerPage);
@@ -23,6 +27,7 @@ public class Paging {
         calcStartEndPage(getNowPage(), cntPage);
         calcStartEnd(getNowPage(), getCntPerPage());
     }
+
     public Paging(int total, int nowPage, int cntPerPage,String keyword) {
         setNowPage(nowPage);
         setCntPerPage(cntPerPage);

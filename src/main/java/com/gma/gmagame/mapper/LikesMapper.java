@@ -13,4 +13,8 @@ public interface LikesMapper {
     public void plusLike(Likes likes);
 
     public int likeCheck(Integer bno, String userId);
+
+    public Integer getLike(Integer bno);
+
+    public int updateLike(Integer bno);
 }

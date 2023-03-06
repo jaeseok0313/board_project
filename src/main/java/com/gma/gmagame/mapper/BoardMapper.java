@@ -23,6 +23,8 @@ public interface BoardMapper {
 
     public void updateOne(Board board);
 
+    public int updateLike(Board board);
+
     public int countBoard();
     public int searchCountBoard(String keyword);
     // 페이징 처리 게시글 조회
