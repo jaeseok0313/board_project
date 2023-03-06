@@ -5,7 +5,8 @@
 <mapper namespace="com.gma.gmagame.mapper.BoardMapper">
     <select id="selectAll" resultType="com.gma.gmagame.model.Board">
         SELECT * FROM board_aaa
-        WHERE <![CDATA[board_idx<=10]]>
+        WHERE <![CDATA[ROWNUM<=10]]>
+        order by likes desc
     </select>
     <select id="countBoard" resultType="int">
         SELECT COUNT(*) FROM board_aaa
@@ -13,41 +14,36 @@
     </select>
     <!-- 페이징 처리 후 게시글 조회 -->
     <select id="selectBoard" resultType="com.gma.gmagame.model.Board">
-
-        SELECT   ed.*
-        FROM   (
-        SELECT   rd.*
-        FROM   (
-        SELECT   ROWNUM RN
-        ,od2.*
-        FROM   (
-        SELECT   od.*
-        FROM   (
-        SELECT BOARD_IDX
-        , TITLE
-        , HIT_CNT
-        , CREATED_DATETIME
-        , CREATOR_ID
-        , LIKES
-        FROM board_aaa
-        <include refid="search" />
-        ) od
-        ORDER BY od.BOARD_IDX
-        ) od2
-        ) rd
-        WHERE   rd.RN <![CDATA[<=]]> #{end}
-        ) ed
-        WHERE   ed.RN <![CDATA[>=]]> #{start}
-
-
-        <!--
-        SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
+<!--        SELECT   ed.*-->
+<!--        FROM   (-->
+<!--        SELECT   rd.*-->
+<!--        FROM   (-->
+<!--        SELECT   ROWNUM RN-->
+<!--        ,od2.*-->
+<!--        FROM   (-->
+<!--        SELECT   od.*-->
+<!--        FROM   (-->
+<!--        SELECT BOARD_IDX-->
+<!--        , TITLE-->
+<!--        , HIT_CNT-->
+<!--        , CREATED_DATETIME-->
+<!--        , CREATOR_ID-->
+<!--        , LIKES-->
+<!--        FROM board_aaa-->
+<!--        <include refid="search" />-->
+<!--        ) od-->
+<!--        ORDER BY od.BOARD_IDX-->
+<!--        ) od2-->
+<!--        ) rd-->
+<!--        WHERE   rd.RN <![CDATA[<=]]> #{end}-->
+<!--        ) ed-->
+<!--        WHERE   ed.RN <![CDATA[>=]]> #{start}-->
+        SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id,LIKEs
         FROM ( SELECT ROWNUM RN, A.*
-        FROM ( SELECT * FROM board_aa
+        FROM ( SELECT * FROM board_aaa
         <include refid="search" />
         ORDER BY board_idx asc ) A )
         WHERE RN BETWEEN #{start} AND #{end}
-        -->
 
 
     </select>
@@ -74,8 +70,8 @@
             SELECT NVL(MAX(board_idx),0)+1
             FROM board_aaa
         </selectKey>
-        INSERT INTO board_aaa (board_idx,title,contents,created_datetime,creator_id)
-        VALUES(#{user_idx},#{title},#{contents},SYSDATE,#{name})
+        INSERT INTO board_aaa (board_idx,title,contents,created_datetime,creator_id,likes)
+        VALUES(#{user_idx},#{title},#{contents},SYSDATE,#{name},0)
     </insert>
 
     <delete id="deleteOne" parameterType="com.gma.gmagame.model.Board">

@@ -1,8 +1,10 @@
 package com.gma.gmagame.contorller;
 
 import com.gma.gmagame.Service.BoardService;
+import com.gma.gmagame.Service.LikesService;
 import com.gma.gmagame.mapper.BoardMapper;
 import com.gma.gmagame.model.Board;
+import com.gma.gmagame.model.Likes;
 import com.gma.gmagame.model.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +30,7 @@ import java.util.Optional;
 public class BoardController {
 
     private final BoardService boardService;
+    private final LikesService likesService;
 
     @GetMapping("/boards")
     public String boardList(Paging vo, Model model
@@ -62,6 +66,7 @@ public class BoardController {
         Optional<Board> result = boardService.BoardOne(user_idx);
         Board board = result.get();
         model.addAttribute("board",board);
+
         return "board/board";
     }
     @GetMapping("/add")
@@ -75,7 +80,6 @@ public class BoardController {
         boardService.BoardAdd(board);
         return "redirect:/board/boards";
     }
-
     @RequestMapping("/{user_idx}/delete")
     public String deleteBoard(@PathVariable Integer user_idx)
     {
@@ -95,6 +99,13 @@ public class BoardController {
     public String edit(@PathVariable String user_idx, @ModelAttribute Board board){
         boardService.BoardUpdate(board);
         return "redirect:/board/{user_idx}";
+    }
+    @GetMapping("/lits")
+    public String index(Model model) {
+        List<Board> list=boardService.BoardList();
+        model.addAttribute("boa",list);
+
+        return "board/lits";
     }
 
 

@@ -4,20 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.LikesMapper">
     <insert id="plusLike" parameterType="com.gma.gmagame.model.Likes">
-        insert into LIKES_BAS(LIKENO , BNO , USER_ID)
-        values((SELECT NVL(MAX(likeno), 0) + 1 FROM LIKES_BAS) ,#{bno} ,#{userId})
+        insert into LIKES_BASs(BNO , USER_ID,rno)
+        values(#{bno} ,#{userId},(SELECT NVL(MAX(rno), 0) + 1 FROM LIKES_BASs))
     </insert>
 
-    <select id="updateBoardLike">
-        UPDATE BOARD_AAA
-           SET
-        LIKES = (SELECT COUNT(*)
-        FROM LIKES_BAS
-        WHERE BNO = #{board_idx})
-        WHERE BOARD_IDX = #{board_idx}
+    <select id="getLike" resultType="Integer">
+        select count(*) from LIKES_BASs where bno = #{bno}
     </select>
 
+    <update id="updateLike" parameterType="Integer">
+        UPDATE BOARD_AAA
+        SET LIKES = (SELECT COUNT(*) FROM LIKES_BASs WHERE BNO = #{bno})
+        WHERE BOARD_IDX = #{bno}
+    </update>
+
     <select id="likeCheck" resultType="int">
-        select count(*) from LIKES_BAS where BNO = #{bno} and USER_ID = #{userId}
+        select count(*) from LIKES_BASs where BNO = #{bno} and USER_ID = #{userId}
     </select>
 </mapper>

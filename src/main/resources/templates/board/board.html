@@ -54,8 +54,9 @@
                 <th scope="row"><strong class="t-15">작성일</strong></th>
                 <td><span type="text" id="datetime" name="datetime" class="form-detail" value="10" th:text="${#dates.format(board.datetime, 'YYYY-MM-dd HH:mm')}" readonly></span></td>
                 <th scope="row"><strong class="t-15">추천</strong></th>
-                <td><span type="text" id="likes" name="likes" class="form-detail" value="10" th:text="${board.likes}" readonly></span></td>
+                <td><span type="text" id="likes" name="likes" class="form-detail" th:text="${board.likes}" readonly></span></td>
 
+<!--                <span type="hidden" id="likes" name="likes" class="form-detail" value="10" th:value="${board.likes}" readonly></span>-->
             </tr>
             <tr>
                 <th scope="row" colspan="6"><strong class="t-15">내용</strong></th>
@@ -194,20 +195,30 @@
             var likes = $('input[name=likes]').val();
             console.log(boardId);
             console.log(userId);
+            console.log(likes);
+            if(isEmpty(userId)==true)
+            {
+                alert("w저리가셈")
+            }
+            else {
                 $.ajax({
-                    type:'POST',
-                    url:"/board/like/likePlus",
-                    data:{
-                        boardId:boardId,
-                        content:userId,
-                        likes:likes
-                    },success: function (response) {
-                        console.log(likes)
+                    type: 'POST',
+                    url: "/board/like/likePlus",
+                    data: {boardId: boardId},
+                    success: function (data) {
+                        if (data == 0) {
+                            alert("이미추천함")
+                        } else {
+                            var a = '';
+                            a += '<input type="text" id="likes" name="likes" class="form-detail" value="' + data + '" readOnly></input>'
+                            $("#likes").html(a)
+                        }
+
                     }
                 });
-            console.log(boardId);
-            console.log(userId);
-        });// 댓글등록 이벤트 끝
+            }
+        });
+        // 댓글등록 이벤트 끝
 
         function updateCommentForm(id) {
             var commentId = id;
