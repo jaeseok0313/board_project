@@ -54,8 +54,8 @@
                 <th scope="row"><strong class="t-15">작성일</strong></th>
                 <td><span type="text" id="datetime" name="datetime" class="form-detail" value="10" th:text="${#dates.format(board.datetime, 'YYYY-MM-dd HH:mm')}" readonly></span></td>
                 <th scope="row"><strong class="t-15">추천</strong></th>
-<!--                <td><span type="text" id="likes" name="likes" class="form-detail" value="10" th:text="${board.likes}" readonly></span></td>-->
-                <span type="hidden" id="likes" name="likes" class="form-detail" value="10" th:value="${board.likes}" readonly></span>
+                <td><span type="text" id="likes" name="likes" class="form-detail" value="10" th:text="${board.likes}" readonly></span></td>
+
             </tr>
             <tr>
                 <th scope="row" colspan="6"><strong class="t-15">내용</strong></th>

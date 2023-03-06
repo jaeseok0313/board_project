@@ -4,60 +4,67 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.BoardMapper">
     <select id="selectAll" resultType="com.gma.gmagame.model.Board">
-        SELECT * FROM board_aa
+        SELECT * FROM board_aaa
         WHERE <![CDATA[board_idx<=10]]>
     </select>
     <select id="countBoard" resultType="int">
-        SELECT COUNT(*) FROM board_aa
+        SELECT COUNT(*) FROM board_aaa
         <include refid="search" />
     </select>
     <!-- 페이징 처리 후 게시글 조회 -->
     <select id="selectBoard" resultType="com.gma.gmagame.model.Board">
+
+        SELECT   ed.*
+        FROM   (
+        SELECT   rd.*
+        FROM   (
+        SELECT   ROWNUM RN
+        ,od2.*
+        FROM   (
+        SELECT   od.*
+        FROM   (
+        SELECT BOARD_IDX
+        , TITLE
+        , HIT_CNT
+        , CREATED_DATETIME
+        , CREATOR_ID
+        , LIKES
+        FROM board_aaa
+        <include refid="search" />
+        ) od
+        ORDER BY od.BOARD_IDX
+        ) od2
+        ) rd
+        WHERE   rd.RN <![CDATA[<=]]> #{end}
+        ) ed
+        WHERE   ed.RN <![CDATA[>=]]> #{start}
+
+
+        <!--
         SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
         FROM ( SELECT ROWNUM RN, A.*
         FROM ( SELECT * FROM board_aa
         <include refid="search" />
         ORDER BY board_idx asc ) A )
         WHERE RN BETWEEN #{start} AND #{end}
+        -->
 
-        <!--        SELECT   ed.*-->
-        <!--        FROM   (-->
-        <!--        SELECT   rd.*-->
-        <!--        FROM   (-->
-        <!--        SELECT   ROWNUM RN-->
-        <!--        ,od2.*-->
-        <!--        FROM   (-->
-        <!--        SELECT   od.*-->
-        <!--        FROM   (-->
-        <!--        SELECT BOARD_IDX-->
-        <!--        , TITLE-->
-        <!--        , HIT_CNT-->
-        <!--        , CREATED_DATETIME-->
-        <!--        , CREATOR_ID-->
-        <!--        FROM BOARD_AA-->
-        <!--        <include refid="search" />-->
-        <!--        ) od-->
-        <!--        ORDER BY od.BOARD_IDX-->
-        <!--        ) od2-->
-        <!--        ) rd-->
-        <!--        WHERE   rd.RN <![CDATA[<=]]> #{end}-->
-        <!--        ) ed-->
-        <!--        WHERE   ed.RN <![CDATA[>=]]> #{start}-->
+
     </select>
 
     <select id="count" resultType="int">
-        select count(*) from board_aa
+        select count(*) from board_aaa
     </select>
 
     <select id="selectOne" resultType="com.gma.gmagame.model.Board">
         SELECT *
-        FROM board_aa
+        FROM board_aaa
         WHERE board_idx=#{user_idx}
     </select>
 
 
     <update id="updateViewCnt" parameterType="com.gma.gmagame.model.Board">
-        UPDATE board_aa
+        UPDATE board_aaa
         SET hit_cnt = hit_cnt+1
         WHERE board_idx=#{user_idx}
     </update>
@@ -65,34 +72,26 @@
     <insert id="insertOne" parameterType="com.gma.gmagame.model.Board">
         <selectKey resultType="Integer" keyProperty="user_idx" order="BEFORE">
             SELECT NVL(MAX(board_idx),0)+1
-            FROM board_aa
+            FROM board_aaa
         </selectKey>
-        INSERT INTO board_aa (board_idx,title,contents,created_datetime,creator_id)
+        INSERT INTO board_aaa (board_idx,title,contents,created_datetime,creator_id)
         VALUES(#{user_idx},#{title},#{contents},SYSDATE,#{name})
     </insert>
 
     <delete id="deleteOne" parameterType="com.gma.gmagame.model.Board">
         DELETE
-        FROM board_aa
+        FROM board_aaa
         WHERE board_idx=#{user_idx}
     </delete>
 
     <update id="updateOne" parameterType="com.gma.gmagame.model.Board">
-        UPDATE board_aa
+        UPDATE board_aaa
         SET title =#{title},contents=#{contents}
         WHERE board_idx=#{user_idx}
     </update>
-    <!--
-    <select id="selectBoardKeyWord" resultType="com.gma.gmagame.model.Board">
-        SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id
-        FROM ( SELECT ROWNUM RN, A.*
-        FROM ( SELECT * FROM board_aa ORDER BY board_idx asc ) A )
-        WHERE RN BETWEEN #{start} AND #{end}
-        AND title LIKE '%' ||#{keyword}||'%'
-    </select>
-    -->
+
     <select id="searchCountBoard" resultType="int">
-        SELECT COUNT(*) FROM board_aa
+        SELECT COUNT(*) FROM board_aaa
         WHERE title LIKE '%' ||#{keyword}||'%'
     </select>
 
@@ -101,4 +100,5 @@
             WHERE title LIKE '%' ||#{keyword}||'%'
         </if>
     </sql>
+
 </mapper>
