@@ -1,7 +1,10 @@
 package com.gma.gmagame.mapper;
 
+import com.gma.gmagame.model.Likes;
 import com.gma.gmagame.model.User;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -9,9 +12,19 @@ public interface UserMapper {
 
     public void saveUser(User user);
 
-    User getUserAccount(String user_id);
-
     User getMypage(String user_id);
 
     public void updateUser(User user);
+
+    //restapi 구현
+
+    public List<User> getAllUsers();//유저 리스트 조회
+
+    User getUserAccount(String user_id);//유저 id의 정보 조회
+
+    public void registerUser(User user);
+    public void userUpdate(User user);
+    public void deleteUser(String userId);
+
+
 }

@@ -133,6 +133,16 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>5.7.6</version>
         </dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>0.9.1</version>
+			</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.5</version>
+		</dependency>
     </dependencies>
 
 	<build>

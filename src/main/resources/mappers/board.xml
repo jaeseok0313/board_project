@@ -3,94 +3,77 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.BoardMapper">
-    <select id="selectAll" resultType="com.gma.gmagame.model.Board">
-        SELECT * FROM board_aaa
+<!--    상위 10개 인기글 검색-->
+    <select id="selectBest" resultType="com.gma.gmagame.model.Board">
+        SELECT * FROM board_a
         WHERE <![CDATA[ROWNUM<=10]]>
         order by likes desc
     </select>
+<!--    게시글 개수 검색 -->
     <select id="countBoard" resultType="int">
-        SELECT COUNT(*) FROM board_aaa
+        SELECT COUNT(*) FROM board_a
         <include refid="search" />
     </select>
-    <!-- 페이징 처리 후 게시글 조회 -->
+    <!-- 중간에 삭제된거 밀리지않게 게시글 조회 -->
     <select id="selectBoard" resultType="com.gma.gmagame.model.Board">
-<!--        SELECT   ed.*-->
-<!--        FROM   (-->
-<!--        SELECT   rd.*-->
-<!--        FROM   (-->
-<!--        SELECT   ROWNUM RN-->
-<!--        ,od2.*-->
-<!--        FROM   (-->
-<!--        SELECT   od.*-->
-<!--        FROM   (-->
-<!--        SELECT BOARD_IDX-->
-<!--        , TITLE-->
-<!--        , HIT_CNT-->
-<!--        , CREATED_DATETIME-->
-<!--        , CREATOR_ID-->
-<!--        , LIKES-->
-<!--        FROM board_aaa-->
-<!--        <include refid="search" />-->
-<!--        ) od-->
-<!--        ORDER BY od.BOARD_IDX-->
-<!--        ) od2-->
-<!--        ) rd-->
-<!--        WHERE   rd.RN <![CDATA[<=]]> #{end}-->
-<!--        ) ed-->
-<!--        WHERE   ed.RN <![CDATA[>=]]> #{start}-->
         SELECT board_idx,title,contents,hit_cnt,created_datetime,creator_id,LIKEs
         FROM ( SELECT ROWNUM RN, A.*
-        FROM ( SELECT * FROM board_aaa
+        FROM ( SELECT * FROM board_a
         <include refid="search" />
         ORDER BY board_idx asc ) A )
         WHERE RN BETWEEN #{start} AND #{end}
-
-
     </select>
 
     <select id="count" resultType="int">
-        select count(*) from board_aaa
+        select count(*) from board_a
     </select>
 
+    <!--  전체 게시글 조회-->
+    <select id="selectAll" resultType="com.gma.gmagame.model.Board">
+        SELECT *
+        FROM board_a
+        order by board_idx desc
+    </select>
+
+    <!--상세 게시글 조회-->
     <select id="selectOne" resultType="com.gma.gmagame.model.Board">
         SELECT *
-        FROM board_aaa
+        FROM board_a
         WHERE board_idx=#{user_idx}
     </select>
-
-
+<!--    조회수 증가-->
     <update id="updateViewCnt" parameterType="com.gma.gmagame.model.Board">
-        UPDATE board_aaa
+        UPDATE board_a
         SET hit_cnt = hit_cnt+1
         WHERE board_idx=#{user_idx}
     </update>
-
+<!-- 게시글 작성-->
     <insert id="insertOne" parameterType="com.gma.gmagame.model.Board">
         <selectKey resultType="Integer" keyProperty="user_idx" order="BEFORE">
             SELECT NVL(MAX(board_idx),0)+1
-            FROM board_aaa
+            FROM board_a
         </selectKey>
-        INSERT INTO board_aaa (board_idx,title,contents,created_datetime,creator_id,likes)
+        INSERT INTO board_a (board_idx,title,contents,created_datetime,creator_id,likes)
         VALUES(#{user_idx},#{title},#{contents},SYSDATE,#{name},0)
     </insert>
-
+<!--게시글 삭제-->
     <delete id="deleteOne" parameterType="com.gma.gmagame.model.Board">
         DELETE
-        FROM board_aaa
+        FROM board_a
         WHERE board_idx=#{user_idx}
     </delete>
-
+<!--게시글 수정-->
     <update id="updateOne" parameterType="com.gma.gmagame.model.Board">
-        UPDATE board_aaa
+        UPDATE board_a
         SET title =#{title},contents=#{contents}
         WHERE board_idx=#{user_idx}
     </update>
-
+<!--검색된 게시글의 수 조회-->
     <select id="searchCountBoard" resultType="int">
-        SELECT COUNT(*) FROM board_aaa
+        SELECT COUNT(*) FROM board_a
         WHERE title LIKE '%' ||#{keyword}||'%'
     </select>
-
+<!--검색기능 키워드-->
     <sql id="search">
         <if test="keyword != null and keyword != ''">
             WHERE title LIKE '%' ||#{keyword}||'%'

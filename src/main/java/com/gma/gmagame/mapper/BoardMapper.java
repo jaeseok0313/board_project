@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Mapper
 public interface BoardMapper {
+    public List<Board> selectBest();
+
     public List<Board> selectAll();
 
     public Optional<Board> selectOne(Integer user_idx);
@@ -31,6 +33,7 @@ public interface BoardMapper {
     public List<Board> selectBoard(Paging vo);
 
     public List<Board> selectBoardKeyWord(Paging vo);
+
 
 
 

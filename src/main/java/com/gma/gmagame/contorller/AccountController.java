@@ -17,7 +17,7 @@ public class AccountController {
     private final UserService userService;
 
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(value = "login")
     public String login() {
         return "account/login";
     }

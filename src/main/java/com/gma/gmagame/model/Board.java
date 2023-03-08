@@ -24,7 +24,9 @@ public class Board {
         private Date datetime;
         private Integer likes;
 
-        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name, Integer likes)
+        public Board(Integer user_idx,String title,String contents,
+                     Integer viewCnt,Date datetime,String name,
+                     Integer likes)
         {
             this.user_idx=user_idx;
             this.title=title;

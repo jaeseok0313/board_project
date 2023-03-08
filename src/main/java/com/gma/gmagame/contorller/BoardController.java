@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -75,8 +76,9 @@ public class BoardController {
         return "board/addForm2";
     }
     @PostMapping("/add")
-    public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes ,Authentication authentication){
-        String name = authentication.getName();
+    public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes , Authentication authentication
+                           )throws Exception{
+//        String name = authentication.getName();
         boardService.BoardAdd(board);
         return "redirect:/board/boards";
     }
@@ -96,13 +98,13 @@ public class BoardController {
         return "board/editForm";
     }
     @PostMapping("/{user_idx}/edit")
-    public String edit(@PathVariable String user_idx, @ModelAttribute Board board){
+    public String edit(@PathVariable String user_idx, @ModelAttribute Board board)throws Exception{
         boardService.BoardUpdate(board);
         return "redirect:/board/{user_idx}";
     }
     @GetMapping("/lits")
     public String index(Model model) {
-        List<Board> list=boardService.BoardList();
+        List<Board> list=boardService.BoardBestList();
         model.addAttribute("boa",list);
 
         return "board/lits";
