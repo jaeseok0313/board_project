@@ -64,6 +64,9 @@
             <tr>
                 <th scope="row" colspan="6"><textarea type="text" id="contents" name="contents" class="form-text" th:text="${board.contents}" readonly></textarea></th>
             </tr>
+            <div class="file_list">
+                <a th:each="list : ${board.fileList}" th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}" th:text="|${list.originalFileName}(${list.fileSize} kb)|"></a>
+            </div>
             <tr>
                 <th colspan="6" class="text-center">
                     <button type="button" class="btn btn-warning" id="Like_plus">추천</button>

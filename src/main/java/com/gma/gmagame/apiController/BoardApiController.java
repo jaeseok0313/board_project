@@ -2,6 +2,7 @@ package com.gma.gmagame.apiController;
 
 import com.gma.gmagame.Service.BoardService;
 import com.gma.gmagame.model.Board;
+import com.gma.gmagame.model.BoardFile;
 import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.security.Principal;
 import java.util.List;
@@ -37,9 +39,9 @@ public class BoardApiController {
 
     //게시글 생성
     @PostMapping("/create")
-    public void apiAddBoard(@RequestBody Board board, Principal principal)throws Exception {
+    public void apiAddBoard(@RequestBody Board board, BoardFile boardFile, Principal principal, MultipartHttpServletRequest multipartHttpServletRequest)throws Exception {
         board.setName(principal.getName());
-        boardService.BoardAdd(board);
+        boardService.BoardAdd(board,multipartHttpServletRequest,boardFile);
     }
 
     //게시판 수정

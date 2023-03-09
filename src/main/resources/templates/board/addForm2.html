@@ -22,7 +22,7 @@
     <div>
         <h4 class="mb-3">글 작성</h4>
 
-        <form th:action th:object="${board}" method="post">
+        <form th:action th:object="${board}" method="post" enctype="multipart/form-data">
             <!-- 게시글 생성시 로그인한 아이디로 -->
             <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
             <!-- 글 제목 입력 -->
@@ -45,6 +45,7 @@
                     </div>
                 </div>
             </div>
+            <input type="file" id="files" name="files" multiple="multiple">
             <!-- 저장 버튼 -->
             <hr class="mb-4">
             <button class="btn btn-primary btn-lg btn-block" type="submit">저장</button>

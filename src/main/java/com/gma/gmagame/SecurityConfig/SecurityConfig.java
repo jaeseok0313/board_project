@@ -58,4 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(customAuthenticationProvider);
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("UTF-8");
+        commonsMultipartResolver.setMaxUploadSizePerFile(5 * 1024 * 1024);
+        return commonsMultipartResolver;
+    }
 }

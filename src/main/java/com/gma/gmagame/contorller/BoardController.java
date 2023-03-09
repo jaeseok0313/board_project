@@ -4,22 +4,29 @@ import com.gma.gmagame.Service.BoardService;
 import com.gma.gmagame.Service.LikesService;
 import com.gma.gmagame.mapper.BoardMapper;
 import com.gma.gmagame.model.Board;
+import com.gma.gmagame.model.BoardFile;
 import com.gma.gmagame.model.Likes;
 import com.gma.gmagame.model.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -61,11 +68,11 @@ public class BoardController {
         return "board/boards";
     }
     @GetMapping("/{user_idx}")
-    public String board(@PathVariable("user_idx") Integer user_idx, Model model)
+    public String board(@PathVariable("user_idx") Integer user_idx, Model model) throws Exception
     {
         boardService.ViewCntUpdate(user_idx);
-        Optional<Board> result = boardService.BoardOne(user_idx);
-        Board board = result.get();
+//        Optional<Board> result = boardService.selectBoardDetail(user_idx);
+        Board board = boardService.selectBoardDetail(user_idx);
         model.addAttribute("board",board);
 
         return "board/board";
@@ -76,10 +83,11 @@ public class BoardController {
         return "board/addForm2";
     }
     @PostMapping("/add")
-    public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes , Authentication authentication
-                           )throws Exception{
+    public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes , Authentication authentication,
+                           MultipartHttpServletRequest multipartHttpServletRequest
+                           , BoardFile boardFile)throws Exception{
 //        String name = authentication.getName();
-        boardService.BoardAdd(board);
+        boardService.BoardAdd(board,multipartHttpServletRequest,boardFile);
         return "redirect:/board/boards";
     }
     @RequestMapping("/{user_idx}/delete")
@@ -108,6 +116,25 @@ public class BoardController {
         model.addAttribute("boa",list);
 
         return "board/lits";
+    }
+    @RequestMapping("/downloadBoardFile.do")
+    public void downloadBoardFile(@RequestParam Integer idx, @RequestParam Integer boardIdx, HttpServletResponse response,BoardFile boardFile) throws Exception {
+        boardFile = boardService.selectBoardFileInformation(idx, boardIdx);
+        System.out.println(boardFile);
+        if(ObjectUtils.isEmpty(boardFile) == false) {
+            String fileName = boardFile.getOriginalFileName();
+
+
+            byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFilePath()));
+
+            response.setContentType("application/octet-stream");
+            response.setContentLength(files.length);
+            response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8")+"\";");
+
+            response.getOutputStream().write(files);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+        }
     }
 
 
