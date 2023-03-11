@@ -24,7 +24,6 @@ public class CommentController {
         commentService.write(boardId, content, username,comment);
     }
 
-
     @GetMapping("/getCommentList")
     @ResponseBody
     public List<Comment> getCommentList(@RequestParam(name = "boardId") Integer boardId){
