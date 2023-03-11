@@ -64,12 +64,24 @@
             <tr>
                 <th scope="row" colspan="6"><textarea type="text" id="contents" name="contents" class="form-text" th:text="${board.contents}" readonly></textarea></th>
             </tr>
+
             <tr>
                 <th colspan="6" class="text-center">
                     <button type="button" class="btn btn-warning" id="Like_plus">추천</button>
                     <button type="button" class="btn btn-danger" id="hate_btn">비추천</button>
+                    <div class="file_list">
+                        <div >
+                            <img th:each="imageFile : ${board.fileList}"
+                                 th:src="@{/css/{imageFile}(imageFile=${imageFile.StoredFilePath})}" width="300" height="300" style="margin-right: 5px"/>
+                        </div>
+                        <a th:each="list : ${board.fileList}"
+                           th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}"
+                           th:text="|${list.originalFileName}(${list.fileSize} kb)|"></a>
+                    </div>
                 </th>
+
             </tr>
+
         </tbody>
     </table>
 

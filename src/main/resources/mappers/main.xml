@@ -3,20 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.UserMapper">
-    <select id="selectList" parameterType="com.gma.gmagame.model.User" resultType="com.gma.gmagame.model.User">
-        SELECT *
-        FROM USER_BAS
-    </select>
-
+<!--html 유저 회원가입-->
     <insert id="saveUser" parameterType="com.gma.gmagame.model.User">
         <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
             SELECT NVL(MAX(USER_NO),0)+1
             FROM USER_BAS
-        </selectKey>
-        INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
+        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
         VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE)
+
     </insert>
 
+<!--   html 회원정보 수정 -->
+    <update id="updateUser" parameterType="com.gma.gmagame.model.User">
+        UPDATE USER_BAS
+        SET USER_ID = #{user_id}
+        , USER_PWD = #{user_pwd}
+        , USER_NAME = #{user_name}
+        , PHONE_NUMBER = #{phone_number}
+        , ADDRESS = #{address}
+        WHERE USER_ID = #{user_id}
+    </update>
+<!--아이디로 유저검색 api포함-->
     <select id="getUserAccount" resultType="com.gma.gmagame.model.User" parameterType="com.gma.gmagame.model.User">
         SELECT *
         FROM USER_BAS
@@ -29,23 +36,40 @@
         WHERE USER_ID = #{user_id}
     </select>
 
-    <update id="updateUser" parameterType="com.gma.gmagame.model.User">
-        UPDATE USER_BAS
-           SET USER_ID = #{user_id}
-             , USER_PWD = #{user_pwd}
-             , USER_NAME = #{user_name}
-             , PHONE_NUMBER = #{phone_number}
-             , ADDRESS = #{address}
-         WHERE USER_ID = #{user_id}
-    </update>
+<!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@user api sql@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
-    <select id="getAdmin" resultType="com.gma.gmagame.model.User" parameterType="com.gma.gmagame.model.User">
+<!--    api유저 정보 검색-->
+    <select id="getAllUsers" parameterType="com.gma.gmagame.model.User" resultType="com.gma.gmagame.model.User">
         SELECT *
         FROM USER_BAS
-        WHERE USER_ID = #{user_id}
     </select>
+    <!--    api유저 수정-->
+    <update id="userUpdate" parameterType="com.gma.gmagame.model.User">
+        UPDATE USER_BAS
+        SET USER_ID = #{user_id}
+        , USER_PWD = #{user_pwd}
+        , USER_NAME = #{user_name}
+        , PHONE_NUMBER = #{phone_number}
+        , ADDRESS = #{address}
+        WHERE USER_ID = #{Id}
+    </update>
 
+    <!--api유저 삭제-->
+    <delete id="deleteUser" parameterType="com.gma.gmagame.model.User">
+        DELETE
+        FROM USER_BAS
+        WHERE USER_ID=#{user_id}
+    </delete>
 
+    <!-- api 회원가입-->
+    <insert id="registerUser" parameterType="com.gma.gmagame.model.User">
+        <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
+            SELECT NVL(MAX(USER_NO),0)+1
+            FROM USER_BAS
+        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
+        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE)
+
+    </insert>
 
 </mapper>
 

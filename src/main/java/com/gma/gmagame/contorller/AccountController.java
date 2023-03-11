@@ -15,25 +15,21 @@ import java.security.Principal;
 public class AccountController {
 
     private final UserService userService;
-
-
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(value = "login")
     public String login() {
         return "account/login";
     }
 
     @RequestMapping(value = "register", method = RequestMethod.GET)
     public String register() {
-
         return "account/register";
     }
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public String register_info(User user) {
 
-        userService.joinUser(user);
+        userService.registerUser(user);
         return "redirect:/";
     }
-
     @GetMapping("/mypage")
     //@RequestMapping(value = "mypage", method = RequestMethod.GET)
     public String mypage(Principal principal, Model model){

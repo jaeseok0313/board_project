@@ -3,22 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.LikesMapper">
+<!--    추천 증가-->
     <insert id="plusLike" parameterType="com.gma.gmagame.model.Likes">
-        insert into LIKES_BASs(BNO , USER_ID,rno)
-        values(#{bno} ,#{userId},(SELECT NVL(MAX(rno), 0) + 1 FROM LIKES_BASs))
+        insert into LIKES_BASss(BNO , USER_ID,rno)
+        values(#{bno} ,#{userId},(SELECT NVL(MAX(rno), 0) + 1 FROM LIKES_BASss))
     </insert>
-
+<!-- 추천 개수 카운트-->
     <select id="getLike" resultType="Integer">
-        select count(*) from LIKES_BASs where bno = #{bno}
+        select count(*) from LIKES_BASss where bno = #{bno}
     </select>
-
+<!-- 카운트된 추천 개수 반영-->
     <update id="updateLike" parameterType="Integer">
         UPDATE BOARD_AAA
-        SET LIKES = (SELECT COUNT(*) FROM LIKES_BASs WHERE BNO = #{bno})
+        SET LIKES = (SELECT COUNT(*) FROM LIKES_BASss WHERE BNO = #{bno})
         WHERE BOARD_IDX = #{bno}
     </update>
-
+<!-- 추천한 사람 체크-->
     <select id="likeCheck" resultType="int">
-        select count(*) from LIKES_BASs where BNO = #{bno} and USER_ID = #{userId}
+        select count(*) from LIKES_BASss where BNO = #{bno} and USER_ID = #{userId}
     </select>
 </mapper>

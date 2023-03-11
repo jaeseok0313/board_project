@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.CommentMapper">
+<!--    댓글 작성-->
     <insert id="insertComment" parameterType="com.gma.gmagame.model.Comment">
         <selectKey resultType="Integer" keyProperty="commentNumber" order="BEFORE">
             SELECT NVL(MAX(comment_Number),0)+1
@@ -11,17 +12,19 @@
         INSERT INTO comment_aa (comment_Number,bno,comment_detail,creator_ID,created_date)
         VALUES(#{commentNumber},#{bno},#{commentContent},#{creatorID},SYSDATE)
     </insert>
-
+<!--작성된 댓글 조회-->
     <select id="selectCommentList" resultType="com.gma.gmagame.model.Comment">
         SELECT *
         FROM comment_aa
         WHERE bno=#{bno}
     </select>
+<!--    댓글 수정-->
     <update id="updateComment" parameterType="com.gma.gmagame.model.Comment">
         UPDATE comment_aa
         SET comment_detail=#{commentContent}
         WHERE comment_Number=#{commentNumber}
     </update>
+<!--    댓글 삭제-->
     <delete id="deleteComment" parameterType="com.gma.gmagame.model.Comment">
         DELETE
         FROM comment_aa

@@ -2,11 +2,12 @@ package com.gma.gmagame.model;
 
 import lombok.*;
 
-import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Board {
+
 
 //        private Integer boardIdx;//글번호
 //        private String title;//제목
@@ -23,8 +24,11 @@ public class Board {
         private Integer viewCnt;
         private Date datetime;
         private Integer likes;
+        private List<BoardFile> fileList;
 
-        public Board(Integer user_idx,String title,String contents,Integer viewCnt,Date datetime,String name, Integer likes)
+        public Board(Integer user_idx,String title,String contents,
+                     Integer viewCnt,Date datetime,String name,
+                     Integer likes)
         {
             this.user_idx=user_idx;
             this.title=title;
@@ -35,6 +39,11 @@ public class Board {
             this.likes=likes;
         }
 
-
+    public void setFileList(List<BoardFile> fileList) {
+        this.fileList = fileList;
+    }
+    public List<BoardFile> getFileList() {
+        return fileList;
+    }
 }
 

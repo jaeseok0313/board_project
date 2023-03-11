@@ -47,6 +47,37 @@ FOREIGN KEY (USER_ID) REFERENCES USER_BAS(USER_ID) ON DELETE CASCADE,
 FOREIGN KEY (BNO) REFERENCES BOARD_AA (BOARD_IDX) ON DELETE CASCADE
 );
 
+CREATE TABLE FILE_DATA (
+    idx INTEGER NOT NULL,
+    board_idx INTEGER NOT NULL COMMENT,
+    original_name VARCHAR2(260) NOT NULL COMMENT,
+    save_name VARCHAR2(40) NOT NULL COMMENT,
+    size INT NOT NULL COMMENT,
+    PRIMARY KEY (idx)
+);
+create table FILE_DATA(
+idx INTEGER NOT NULL,
+board_idx INTEGER NOT NULL,
+original_name VARCHAR2(260) NOT NULL,
+save_name VARCHAR2(40) NOT NULL,
+PRIMARY KEY (idx)
+);
+alter table FILE_DATA add constraint fk_attach_board_idx foreign key (board_idx) references FILE_DATA(idx);
+
+CREATE TABLE t_file (
+	idx INTEGER(10) NOT NULL,
+	board_idx INTEGER(10),
+	original_file_name varchar2(255),
+	stored_file_path varchar2(500),
+	file_size INTEGER(15),
+	creator_id varchar(50),
+	PRIMARY KEY (idx)
+);
+
+
+
+
+
 create table admin_req(
   req_no INTEGER not null primary key,
   user_id VARCHAR(50) not null,

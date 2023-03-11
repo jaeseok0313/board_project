@@ -21,28 +21,31 @@
     </div>
     <div>
         <h4 class="mb-3">글 작성</h4>
-        <form th:action th:object="${board}" method="post">
+
+        <form th:action th:object="${board}" method="post" enctype="multipart/form-data">
             <!-- 게시글 생성시 로그인한 아이디로 -->
             <input type="hidden" id="name" name="name" th:value="${#authentication.name}">
             <!-- 글 제목 입력 -->
             <div class="mb-3">
                 <div class="input">
                     <input type="text" id="subject" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요." required>
-<!--                    <div class="invalid-feedback" th:if="${param.error}" style="width: 100%;">-->
-<!--                        제목을 입력하세요!-->
-<!--                    </div>-->
+                    <div class="invalid-feedback" style="width: 100%;">
+                        제목을 입력하세요!
+                    </div>
                 </div>
-
             </div>
             <!-- 글 내용 입력 -->
             <div class="mb-3">
                 <div class="input-group">
-                    <textarea cols="150" rows="10" id="contents" name="contents" th:field="*{contents}" class="form-control" placeholder="내용을 입력하세요."></textarea>
+                        <textarea cols="150" rows="10" id="contents" th:field="*{contents}" class="form-control" placeholder="내용을 입력하세요." required>
+
+                        </textarea>
                     <div class="invalid-feedback" style="width: 100%;">
                         내용을 입력하세요!
                     </div>
                 </div>
             </div>
+            <input type="file" id="files" name="files" multiple="multiple">
             <!-- 저장 버튼 -->
             <hr class="mb-4">
             <button class="btn btn-primary btn-lg btn-block" type="submit">저장</button>
