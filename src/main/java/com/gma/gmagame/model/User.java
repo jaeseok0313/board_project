@@ -30,7 +30,7 @@ public class User implements UserDetails {
         this.user_id=user_id;
         this.user_pwd=user_pwd;
         this.user_name=user_name;
-        this.admin_yn="ROLE_Y";
+        this.admin_yn=admin_yn;
         this.phone_number=phone_number;
         this.address=address;
         this.status=status;
@@ -38,7 +38,7 @@ public class User implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_Y"));
+        return Collections.singletonList(new SimpleGrantedAuthority(admin_yn));
     }
 
     @Override

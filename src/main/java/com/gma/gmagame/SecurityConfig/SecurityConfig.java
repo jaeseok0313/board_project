@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers( "/","/account/login", "/singUp", "/index", "/resources/**","/login_proc","/board/boards").permitAll() // 로그인 권한은 누구나, resources파일도 모든권한
                 //api 사용 제한
-                .antMatchers("/api/**").hasAnyRole("Y").anyRequest().permitAll()
+                .antMatchers("/api/**").hasAuthority("Y").anyRequest().permitAll()
                 //api 유저 조회는 관리자만 가능하게 바꿔야함 보드랑 분리해야함
                 // USER, ADMIN 접근 허용
                 .and()
