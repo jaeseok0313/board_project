@@ -72,7 +72,7 @@
         VALUES(#{user_idx},#{title},#{contents},0,SYSDATE,#{name},0)
     </insert>
     <insert id="insertBoardFileList" parameterType="com.gma.gmagame.model.BoardFile">
-        <selectKey resultType="Integer" keyProperty="Idx" order="BEFORE">
+        <selectKey resultType="Integer" keyProperty="idx" order="BEFORE">
             SELECT NVL(MAX(Idx),0)+1
             FROM T_FILE
         </selectKey>
@@ -84,9 +84,9 @@
 				file_size,
 				creator_id
 			)VALUES]]>
+
+            (#{idx},
         <foreach collection="list" item="item" separator=",">
-            (
-            2,
             #{item.boardIdx},
             #{item.originalFileName},
             #{item.storedFilePath},

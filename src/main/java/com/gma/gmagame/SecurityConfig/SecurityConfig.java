@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 
 @Configuration
 @EnableWebSecurity        //spring security 를 적용한다는 Annotation
@@ -28,8 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.httpBasic().and()
-        http
+        http.httpBasic().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers( "/","/account/login", "/singUp", "/index", "/resources/**","/login_proc","/board/boards").permitAll() // 로그인 권한은 누구나, resources파일도 모든권한
@@ -39,10 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // USER, ADMIN 접근 허용
                 .and()
                 .formLogin()
-                    .usernameParameter("user_id")
-                    .passwordParameter("user_pwd")
-                    .loginPage("/account/login").permitAll()
+                .loginPage("/account/login").permitAll()
                 .loginProcessingUrl("/account/login")
+                .usernameParameter("user_id")
+                .passwordParameter("user_pwd")
                     .successHandler(customAuthenticationSuccessHandler)
                     .failureHandler(customAuthenticationFailureHandler);
                 http.sessionManagement()
@@ -52,11 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //로그인 창
     }
-
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(customAuthenticationProvider);
-        auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+        //auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }
     @Bean
     public CommonsMultipartResolver multipartResolver() {

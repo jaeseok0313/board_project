@@ -3,19 +3,13 @@ package com.gma.gmagame.apiController;
 import com.gma.gmagame.Service.BoardService;
 import com.gma.gmagame.model.Board;
 import com.gma.gmagame.model.BoardFile;
-import com.gma.gmagame.model.User;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -33,8 +27,8 @@ public class BoardApiController {
 
     //게시판 상세 조회
     @GetMapping("/{boardId}")
-    public Optional<Board> apiBoardIdList(@PathVariable Integer boardId) {
-        return boardService.BoardOne(boardId);
+    public Board apiBoardIdList(@PathVariable Integer boardId) throws Exception{
+        return boardService.selectBoardDetail(boardId);
     }
 
     //게시글 생성
@@ -46,9 +40,9 @@ public class BoardApiController {
 
     //게시판 수정
     @PutMapping("/{boardId}")
-    public void apiUpdateBoard(@PathVariable Integer boardId, @RequestBody Board board, Principal principal) {
-        Optional<Board> result =boardService.BoardOne(boardId);
-        Board board2 = result.get();
+    public void apiUpdateBoard(@PathVariable Integer boardId, @RequestBody Board board, Principal principal) throws Exception {
+//      Optional<Board> result =boardService.BoardOne(boardId);
+        Board board2 = boardService.selectBoardDetail(boardId);
         //받아온 게시판 정보의 작성자이름과 로그인 이름 비교
         if(board2.getName().equals(principal.getName())) {
             board2.setTitle(board.getTitle());
@@ -61,24 +55,15 @@ public class BoardApiController {
     }
     //삭제
     @DeleteMapping("/delete/{boardId}")
-    public void apiRemoveBoard(@PathVariable Integer boardId,Principal principal) {
-        Optional<Board> result =boardService.BoardOne(boardId);
-        Board board = result.get();
-        if(board.getName().equals(principal.getName()))
-        {
+    public void apiRemoveBoard(@PathVariable Integer boardId,Principal principal) throws Exception {
+        Board board = boardService.selectBoardDetail(boardId);
+        if(board.getName().equals(principal.getName())) {
             boardService.BoardDelete(boardId);
         }
         else{
             System.out.println("이름다름");
         }
-
     }
-
-
-
-
-
-
 }
 
 

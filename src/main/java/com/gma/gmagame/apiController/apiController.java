@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 @Slf4j
 public class apiController {
-        //여기 뭔지 모르겟음 저장하는건가 흠
+//        //여기 뭔지 모르겟음 저장하는건가 흠
 //    @GetMapping("/login/success")
 //    public ResponseEntity notSesstion() {
 //        log.info("로그인 성공");

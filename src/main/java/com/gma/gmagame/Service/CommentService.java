@@ -5,7 +5,6 @@ import com.gma.gmagame.model.Comment;
 import com.gma.gmagame.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 

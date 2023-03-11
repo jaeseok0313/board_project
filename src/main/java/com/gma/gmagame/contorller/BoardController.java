@@ -2,34 +2,26 @@ package com.gma.gmagame.contorller;
 
 import com.gma.gmagame.Service.BoardService;
 import com.gma.gmagame.Service.LikesService;
-import com.gma.gmagame.mapper.BoardMapper;
 import com.gma.gmagame.model.Board;
 import com.gma.gmagame.model.BoardFile;
-import com.gma.gmagame.model.Likes;
 import com.gma.gmagame.model.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.File;
 import java.net.URLEncoder;
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -77,6 +69,14 @@ public class BoardController {
 
         return "board/board";
     }
+    //인기글
+    @GetMapping("/lits")
+    public String index(Model model) {
+        List<Board> list=boardService.BoardBestList();
+        model.addAttribute("boa",list);
+
+        return "board/lits";
+    }
     @GetMapping("/add")
     public String addForm(Model model ,@ModelAttribute Board board){
         model.addAttribute("board",board);
@@ -86,22 +86,13 @@ public class BoardController {
     public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes , Authentication authentication,
                            MultipartHttpServletRequest multipartHttpServletRequest
                            , BoardFile boardFile)throws Exception{
-//        String name = authentication.getName();
         boardService.BoardAdd(board,multipartHttpServletRequest,boardFile);
         return "redirect:/board/boards";
     }
-    @RequestMapping("/{user_idx}/delete")
-    public String deleteBoard(@PathVariable Integer user_idx)
-    {
-        boardService.BoardDelete(user_idx);
-        return "redirect:/board/boards";
-    }
     @GetMapping("/{user_idx}/edit")
-    public String editForm(@PathVariable("user_idx") Integer user_idx,Model model){
-        Optional<Board> result =boardService.BoardOne(user_idx);
-        Board board = result.get();
+    public String editForm(@PathVariable("user_idx") Integer user_idx,Model model) throws Exception{
+        Board board = boardService.selectBoardDetail(user_idx);
         model.addAttribute("board",board);
-        System.out.println(model);
 
         return "board/editForm";
     }
@@ -110,12 +101,13 @@ public class BoardController {
         boardService.BoardUpdate(board);
         return "redirect:/board/{user_idx}";
     }
-    @GetMapping("/lits")
-    public String index(Model model) {
-        List<Board> list=boardService.BoardBestList();
-        model.addAttribute("boa",list);
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource processImg(@PathVariable String filename,BoardFile boardFile,@RequestParam Integer idx, @RequestParam Integer boardIdx) throws Exception{
+        boardFile=boardService.selectBoardFileInformation(idx,boardIdx);
+        System.out.println(boardFile.getStoredFilePath());
+        return new UrlResource(boardFile.getStoredFilePath());
 
-        return "board/lits";
     }
     @RequestMapping("/downloadBoardFile.do")
     public void downloadBoardFile(@RequestParam Integer idx, @RequestParam Integer boardIdx, HttpServletResponse response,BoardFile boardFile) throws Exception {
@@ -125,8 +117,7 @@ public class BoardController {
             String fileName = boardFile.getOriginalFileName();
 
 
-            byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFilePath()));
-
+            byte[] files = FileUtils.readFileToByteArray(new File("src/main/resources/static/css/"+boardFile.getStoredFilePath()));
             response.setContentType("application/octet-stream");
             response.setContentLength(files.length);
             response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8")+"\";");
@@ -135,6 +126,12 @@ public class BoardController {
             response.getOutputStream().flush();
             response.getOutputStream().close();
         }
+    }
+    @RequestMapping("/{user_idx}/delete")
+    public String deleteBoard(@PathVariable Integer user_idx)
+    {
+        boardService.BoardDelete(user_idx);
+        return "redirect:/board/boards";
     }
 
 

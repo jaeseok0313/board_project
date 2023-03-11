@@ -1,10 +1,12 @@
 package com.gma.gmagame.Utils;
 
 import com.gma.gmagame.model.BoardFile;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.io.File;
 import java.time.ZonedDateTime;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Component
 public class FileUtils {
+
     public List<BoardFile> parseFileInfo(int boardIdx,BoardFile boardFile, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
         if(ObjectUtils.isEmpty(multipartHttpServletRequest)) {
             return null;
@@ -63,7 +66,7 @@ public class FileUtils {
                     boardFile.setStoredFilePath(path + "/" + newFileName);
                     fileList.add(boardFile);
 
-                    file = new File(path + "/" + newFileName);
+                    file = new File("src/main/resources/static/css/"+path + "/" + newFileName);
                     multipartFile.transferTo(file);
                 }
             }
