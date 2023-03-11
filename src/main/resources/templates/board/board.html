@@ -288,12 +288,9 @@
             }
         }
         function isEmpty(strIn) {
-			if (strIn == undefined) {
+			if (strIn === undefined) {
 				return true;
 			}
-            else if (strIn == 'anonymousUser') {
-                return true;
-            }
 			else if (strIn == null) {
 				return true;
 			}

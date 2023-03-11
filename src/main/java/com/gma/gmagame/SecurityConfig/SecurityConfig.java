@@ -38,6 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").hasAuthority("Y").anyRequest().permitAll()
                 //api 유저 조회는 관리자만 가능하게 바꿔야함 보드랑 분리해야함
                 // USER, ADMIN 접근 허용
+                .antMatchers(
+                        "/account/admin"
+                        // 권한
+                        , "/admin/adminList"
+                        ).hasAuthority("Y")
+                //.antMatchers("/board/like/likePlus").hasAuthority("Y")
                 .and()
                 .formLogin()
                 .loginPage("/account/login").permitAll()

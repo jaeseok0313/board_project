@@ -78,6 +78,14 @@ CREATE TABLE t_file (
 
 
 
+create table admin_req(
+  req_no INTEGER not null primary key,
+  user_id VARCHAR(50) not null,
+  req_reason VARCHAR2(500) not null,
+  req_date DATE not null,
+  confirm_date DATE,
+  req_result VARCHAR(10) CHECK(req_result IN ('Y', 'N'))
+  );
 
 
 
