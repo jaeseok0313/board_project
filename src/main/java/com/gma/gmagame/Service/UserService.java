@@ -40,4 +40,9 @@ public class UserService implements UserDetailsService {
     public void UserUpdate(User user) {
         userMapper.updateUser(user);
     }
+
+    public User getAdmin(String user_id) {
+        return userMapper.getAdmin(user_id);
+    }
+
 }

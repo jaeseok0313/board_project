@@ -36,6 +36,10 @@
       <!--<input type="hidden" name="loginUser" th:value="${#authentication.name}">-->
       <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/account/mypage}"
          sec:authorize="isAuthenticated()">마이페이지</a>
+      <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/admin/adminList}"
+         sec:authorize="hasAuthority('Y')">권한 관리</a>
+      <a class="btn btn-secondary my-2 mr-2 my-sm-0" th:href="@{/admin/adminReq}"
+         sec:authorize="hasAuthority('N')">권한 신청</a>
 
       <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
         <span class="text-white" sec:authentication="name">사용자</span>

@@ -47,11 +47,14 @@ FOREIGN KEY (USER_ID) REFERENCES USER_BAS(USER_ID) ON DELETE CASCADE,
 FOREIGN KEY (BNO) REFERENCES BOARD_AA (BOARD_IDX) ON DELETE CASCADE
 );
 
-
-
-
-
-
+create table admin_req(
+  req_no INTEGER not null primary key,
+  user_id VARCHAR(50) not null,
+  req_reason VARCHAR2(500) not null,
+  req_date DATE not null,
+  confirm_date DATE,
+  req_result VARCHAR(10) CHECK(req_result IN ('Y', 'N'))
+  );
 
 
 

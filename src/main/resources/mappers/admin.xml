@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gma.gmagame.mapper.AdminMapper">
+    <select id="selectAll" resultType="com.gma.gmagame.model.Admin">
+        SELECT * FROM admin_req
+        WHERE <![CDATA[ROWNUM<=10]]>
+        <!--order by likes desc-->
+    </select>
+    <select id="countReq" resultType="int">
+        SELECT COUNT(*) FROM admin_req
+        <include refid="search" />
+    </select>
+    <!-- 페이징 처리 후 게시글 조회 -->
+    <select id="selectReq" resultType="com.gma.gmagame.model.Admin">
+<!--        SELECT   ed.*-->
+<!--        FROM   (-->
+<!--        SELECT   rd.*-->
+<!--        FROM   (-->
+<!--        SELECT   ROWNUM RN-->
+<!--        ,od2.*-->
+<!--        FROM   (-->
+<!--        SELECT   od.*-->
+<!--        FROM   (-->
+<!--        SELECT BOARD_IDX-->
+<!--        , TITLE-->
+<!--        , HIT_CNT-->
+<!--        , CREATED_DATETIME-->
+<!--        , CREATOR_ID-->
+<!--        , LIKES-->
+<!--        FROM board_aaa-->
+<!--        <include refid="search" />-->
+<!--        ) od-->
+<!--        ORDER BY od.BOARD_IDX-->
+<!--        ) od2-->
+<!--        ) rd-->
+<!--        WHERE   rd.RN <![CDATA[<=]]> #{end}-->
+<!--        ) ed-->
+<!--        WHERE   ed.RN <![CDATA[>=]]> #{start}-->
+        SELECT REQ_NO,USER_ID,REQ_REASON,REQ_DATE,CONFIRM_DATE,REQ_RESULT
+        FROM ( SELECT ROWNUM RN, A.*
+        FROM ( SELECT * FROM admin_req
+        <include refid="search" />
+        ORDER BY req_no asc ) A )
+        WHERE RN BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from admin_req
+    </select>
+
+    <select id="selectReqPop" resultType="com.gma.gmagame.model.Admin">
+        SELECT *
+        FROM admin_req
+        WHERE REQ_NO=#{reqNO}
+    </select>
+
+    <select id="searchCountReq" resultType="int">
+        SELECT COUNT(*) FROM admin_req
+        WHERE REQ_REASON LIKE '%' ||#{keyword}||'%'
+    </select>
+
+    <sql id="search">
+        <if test="keyword != null and keyword != ''">
+            WHERE REQ_REASON LIKE '%' ||#{keyword}||'%'
+        </if>
+    </sql>
+
+    <update id="approveAdmin" parameterType="com.gma.gmagame.model.Admin">
+        UPDATE admin_req
+           SET CONFIRM_DATE = sysdate
+             , REQ_RESULT = 'Y'
+         WHERE REQ_NO=#{reqNO}
+    </update>
+
+    <update id="userAuthApprove" parameterType="com.gma.gmagame.model.Admin">
+        UPDATE user_bas
+        SET ADMIN_YN = 'Y'
+        WHERE USER_ID=#{userId}
+    </update>
+
+    <select id="reqUserCheck" resultType="int">
+        SELECT COUNT(*) FROM user_bas WHERE USER_ID=#{userId}
+    </select>
+
+    <update id="rejectAdmin" parameterType="com.gma.gmagame.model.Admin">
+        UPDATE admin_req
+        SET CONFIRM_DATE = sysdate
+        , REQ_RESULT = 'N'
+        WHERE REQ_NO=#{reqNO}
+    </update>
+
+    <update id="userAuthReject" parameterType="com.gma.gmagame.model.Admin">
+        UPDATE user_bas
+        SET ADMIN_YN = 'N'
+        WHERE USER_ID=#{userId}
+    </update>
+
+    <insert id="authReq" parameterType="com.gma.gmagame.model.Admin">
+        <selectKey resultType="Integer" keyProperty="reqNo" order="BEFORE">
+            SELECT NVL(MAX(req_no),0)+1
+            FROM admin_req
+        </selectKey>
+        INSERT INTO admin_req (req_no,user_id,req_reason,req_date,confirm_date,req_result)
+        VALUES(#{reqNo},#{userId},#{reqReason},SYSDATE,'','')
+    </insert>
+
+
+</mapper>

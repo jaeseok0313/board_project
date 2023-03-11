@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymmeleaf.org">
+<html xmlns:th="http://www.thymmeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Required meta tags -->
@@ -51,7 +51,7 @@
                         <span id="admin_yn" name="admin_yn" class="form-control" th:text="${user.admin_yn}" readonly></span>
                     </div>
                     <div>
-                        <a type="button" id=admin_apply class="btn btn-primary">권한신청</a>
+                        <a type="button" id=admin_apply class="btn btn-primary" sec:authorize="hasAuthority('N')" th:href="@{/admin/adminReq}">권한신청</a>
                     </div>
                 </div>
                 <!-- 주소 입력 -->
