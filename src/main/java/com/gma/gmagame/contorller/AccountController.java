@@ -30,8 +30,8 @@ public class AccountController {
         userService.registerUser(user);
         return "redirect:/";
     }
-    @GetMapping("/mypage")
-    //@RequestMapping(value = "mypage", method = RequestMethod.GET)
+
+    @RequestMapping(value = "mypage", method = RequestMethod.GET)
     public String mypage(Principal principal, Model model){
 
         User user = userService.getMypage(principal.getName());
@@ -41,7 +41,7 @@ public class AccountController {
         return "account/mypage";
     }
 
-    @PostMapping("/mypage")
+    @RequestMapping(value = "mypage", method = RequestMethod.POST)
     public String updateUser(Principal principal, @ModelAttribute User user) {
         userService.UserUpdate(user);
         return "redirect:/";

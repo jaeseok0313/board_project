@@ -33,11 +33,9 @@
     </style>
 </head>
 
-<body>
-<div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4 " src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <!--<h2>게시판</h2>-->
-</div>
+<body style="padding-top: 10rem;">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')">
+</nav>
 <div class="container">
     <!--<input type="text" name="reqNo" th:value="${#authentication.name}">-->
     <table class="table">

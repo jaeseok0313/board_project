@@ -20,73 +20,51 @@ CREATE TABLE board (
     title VARCHAR(300) NOT NULL,
     contents VARCHAR2(500) NOT NULL ,
     hit_cnt NUMBER(5,0) DEFAULT 0 NOT NULL,
-    created_datetime DATE NOT NULL,
-    creator_id VARCHAR(50) NOT NULL,
-    updated_datetime DATE DEFAULT NULL,
-    updater_id VARCHAR(50) DEFAULT NULL,
-    deleted_yn CHAR(1) DEFAULT 'N' NOT NULL,
-    PRIMARY KEY(board_idx)
+    created_date DATE NOT NULL,
+    user_id VARCHAR(50) NOT NULL,
+    likes INTEGER,
+    delete_yn CHAR(1) DEFAULT 'N' NOT NULL,
+    PRIMARY KEY(board_idx),
+    FOREIGN KEY (user_id) REFERENCES USER_BAS (USER_ID) ON DELETE CASCADE
 );
-
-create table comment(
-  comment_number INTEGER not null primary key, //댓글 seq
-  board_number INTEGER not null,    //댓글이 달릴 게시글 seq
-  comment_detail VARCHAR2(300) not null, //댓글 내용
-  creator_id varchar2(50) not null, //댓글 작성자
-  created_date DATE not null); // 댓글 작성 시간
-  }
-
-create table LIKES_BAS(
-LIKENO NUMBER NOT NULL PRIMARY KEY ,
-BNO NUMBER,
-USER_ID VARCHAR2(50) NOT NULL,
-RNO NUMBER,
-LIKECHECK NUMBER DEFAULT 0 NOT NULL,
-LIKEDATE DATE DEFAULT SYSDATE NOT NULL,
-FOREIGN KEY (USER_ID) REFERENCES USER_BAS(USER_ID) ON DELETE CASCADE,
-FOREIGN KEY (BNO) REFERENCES BOARD_AA (BOARD_IDX) ON DELETE CASCADE
-);
-
-CREATE TABLE FILE_DATA (
-    idx INTEGER NOT NULL,
-    board_idx INTEGER NOT NULL COMMENT,
-    original_name VARCHAR2(260) NOT NULL COMMENT,
-    save_name VARCHAR2(40) NOT NULL COMMENT,
-    size INT NOT NULL COMMENT,
-    PRIMARY KEY (idx)
-);
-create table FILE_DATA(
-idx INTEGER NOT NULL,
-board_idx INTEGER NOT NULL,
-original_name VARCHAR2(260) NOT NULL,
-save_name VARCHAR2(40) NOT NULL,
-PRIMARY KEY (idx)
-);
-alter table FILE_DATA add constraint fk_attach_board_idx foreign key (board_idx) references FILE_DATA(idx);
-
-CREATE TABLE t_file (
-	idx INTEGER(10) NOT NULL,
-	board_idx INTEGER(10),
+CREATE TABLE file_bas (
+	file_no INTEGER NOT NULL,
+	board_idx INTEGER,
 	original_file_name varchar2(255),
 	stored_file_path varchar2(500),
-	file_size INTEGER(15),
-	creator_id varchar(50),
-	PRIMARY KEY (idx)
+	file_size INTEGER,
+	USER_ID varchar(50),
+	PRIMARY KEY (file_no),
+    FOREIGN KEY (USER_ID) REFERENCES USER_BAS(USER_ID) ON DELETE CASCADE,
+    FOREIGN KEY (BOARD_IDX) REFERENCES BOARD (BOARD_IDX) ON DELETE CASCADE
 );
-
-
-
-
-
-create table admin_req(
+create table comment_bas(
+  COMMENT_NO INTEGER not null primary key,
+  BOARD_IDX INTEGER not null,
+  contents VARCHAR2(300) not null,
+  user_id varchar2(50) not null,
+  created_date DATE not null,
+  FOREIGN KEY (user_id) REFERENCES USER_BAS(user_id) ON DELETE CASCADE,
+FOREIGN KEY (BOARD_IDX) REFERENCES BOARD (BOARD_IDX) ON DELETE CASCADE
+)
+create table LIKE_BAS(
+LIKE_NO NUMBER NOT NULL PRIMARY KEY ,
+board_idx NUMBER,
+USER_ID VARCHAR2(50) NOT NULL,
+LIKE_CHECK NUMBER DEFAULT 0 NOT NULL,
+LIKE_DATE DATE DEFAULT SYSDATE NOT NULL,
+FOREIGN KEY (USER_ID) REFERENCES USER_BAS(USER_ID) ON DELETE CASCADE,
+FOREIGN KEY (board_idx) REFERENCES BOARD (BOARD_IDX) ON DELETE CASCADE
+);
+create table auth_req(
   req_no INTEGER not null primary key,
   user_id VARCHAR(50) not null,
   req_reason VARCHAR2(500) not null,
   req_date DATE not null,
   confirm_date DATE,
-  req_result VARCHAR(10) CHECK(req_result IN ('Y', 'N'))
+  req_result VARCHAR(10) CHECK(req_result IN ('Y', 'N')),
+  FOREIGN KEY (user_id) REFERENCES user_bas (user_id) ON DELETE CASCADE
   );
-
 
 
 

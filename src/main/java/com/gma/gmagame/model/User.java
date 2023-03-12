@@ -22,10 +22,11 @@ public class User implements UserDetails {
     private String address;//
     private String status;
     private Date create_date;
+    private String delete_yn;
 
     private String Id;
 
-    public User(Integer user_no, String user_id, String user_pwd, String user_name, String admin_yn, String phone_number, String address, String status, Date create_date){
+    public User(Integer user_no, String user_id, String user_pwd, String user_name, String admin_yn, String phone_number, String address, String status, Date create_date,String delete_yn){
         this.user_no=user_no;
         this.user_id=user_id;
         this.user_pwd=user_pwd;
@@ -35,6 +36,7 @@ public class User implements UserDetails {
         this.address=address;
         this.status=status;
         this.create_date=create_date;
+        this.delete_yn=delete_yn;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

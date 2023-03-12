@@ -8,8 +8,8 @@
         <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
             SELECT NVL(MAX(USER_NO),0)+1
             FROM USER_BAS
-        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
-        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE)
+        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE,DELETE_YN)
+        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE,'N')
 
     </insert>
 
@@ -55,19 +55,19 @@
     </update>
 
     <!--api유저 삭제-->
-    <delete id="deleteUser" parameterType="com.gma.gmagame.model.User">
-        DELETE
-        FROM USER_BAS
+    <update id="deleteUser" parameterType="com.gma.gmagame.model.User">
+        UPDATE USER_BAS
+        SET DELETE_YN = 'Y'
         WHERE USER_ID=#{user_id}
-    </delete>
+    </update>
 
     <!-- api 회원가입-->
     <insert id="registerUser" parameterType="com.gma.gmagame.model.User">
         <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
             SELECT NVL(MAX(USER_NO),0)+1
             FROM USER_BAS
-        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE)
-        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE)
+        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE,DELETE_YN)
+        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE,'N')
 
     </insert>
 

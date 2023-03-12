@@ -23,20 +23,19 @@ public class CommentController {
         String username = principal.getName();
         commentService.write(boardId, content, username,comment);
     }
-
-    @GetMapping("/getCommentList")
+    @RequestMapping(value = "/getCommentList",method = RequestMethod.GET)
     @ResponseBody
     public List<Comment> getCommentList(@RequestParam(name = "boardId") Integer boardId){
         List<Comment> comments = commentService.getCommentList(boardId);
         return comments;
     }
-    @RequestMapping(value="/update" , method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
     public void updateComment(@RequestParam(name = "commentId",required=false) Integer commentId,
                               @RequestParam(name = "content",required=false) String content,Comment comment) throws Exception {
         commentService.update(commentId, content,comment);
     }
-    @PostMapping("/delete")
+    @RequestMapping(value = "/delete")
     @ResponseBody
     public void deleteComment(@RequestParam(name = "commentId") Integer commentId) throws Exception {
         commentService.delete(commentId);

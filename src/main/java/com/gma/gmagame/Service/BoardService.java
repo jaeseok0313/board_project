@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.security.Principal;
 import java.util.*;
 
 
@@ -48,9 +49,11 @@ public class BoardService {
     }
 
     //게시글 작성------------------------------------------------------------------
-    public void BoardAdd(Board board, MultipartHttpServletRequest multipartHttpServletRequest,BoardFile boardFile) throws Exception{
+    public void BoardAdd(Board board, MultipartHttpServletRequest multipartHttpServletRequest,BoardFile boardFile,String name) throws Exception{
         boardMapper.insertOne(board);
+        boardFile.setUserId(name);
         List<BoardFile> list = fileUtils.parseFileInfo(board.getUser_idx(),boardFile,multipartHttpServletRequest);
+        System.out.println(list);
         if(CollectionUtils.isEmpty(list) == false) {
             boardMapper.insertBoardFileList(list);
         }

@@ -27,8 +27,7 @@ import java.util.Optional;
 public class AdminController {
 
     private final AdminService adminService;
-
-    @GetMapping("/adminList")
+    @RequestMapping(value = "adminList", method = RequestMethod.GET)
     public String reqList(Paging vo, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage
@@ -56,8 +55,7 @@ public class AdminController {
         System.out.println(adminService.selectReq(vo));
         return "admin/adminList";
     }
-
-    @GetMapping("/{reqNo}")
+    @RequestMapping(value = "{reqNo}", method = RequestMethod.GET)
     public String admin(@PathVariable("reqNo") Integer reqNo, Model model){
         Optional<Admin> result = adminService.ReqOne(reqNo);
         Admin admin = result.get();
@@ -66,7 +64,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @RequestMapping("/{reqNo}/approve")
+    @RequestMapping(value = "/{reqNo}/approve", method=RequestMethod.GET)
     public String approveAdmin(@PathVariable Integer reqNo, String userId) {
 
         if (adminService.reqUserCheck(userId) > 0){
@@ -79,7 +77,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping("/{reqNo}/reject")
+    @RequestMapping(value = "/{reqNo}/reject",method = RequestMethod.GET)
     public String rejectAdmin(@PathVariable Integer reqNo, String userId) {
 
         if (adminService.reqUserCheck(userId) > 0){
@@ -91,14 +89,12 @@ public class AdminController {
             return "redirect:/admin/{reqNo}";
         }
     }
-
-    @GetMapping("/adminReq")
+    @RequestMapping(value = "adminReq", method = RequestMethod.GET)
     public String addForm(Model model ,@ModelAttribute Admin admin){
         model.addAttribute("admin",admin);
         return "admin/adminReq";
     }
-
-    @PostMapping("/adminReq")
+    @RequestMapping(value = "adminReq", method = RequestMethod.POST)
     public String authReq(@ModelAttribute Admin admin, RedirectAttributes redirectAttributes ,Authentication authentication){
         String name = authentication.getName();
         adminService.authReq(admin);

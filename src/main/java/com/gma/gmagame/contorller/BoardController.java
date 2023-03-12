@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -31,15 +32,14 @@ public class BoardController {
 
     private final BoardService boardService;
     private final LikesService likesService;
-
-    @GetMapping("/boards")
+    @RequestMapping(value = "/boards",method = RequestMethod.GET)
     public String boardList(Paging vo, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage
             , @RequestParam(value="keyword",required = false)String keyword) {
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "5";
+            cntPerPage = "10";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
@@ -59,7 +59,7 @@ public class BoardController {
         }
         return "board/boards";
     }
-    @GetMapping("/{user_idx}")
+    @RequestMapping(value = "/{user_idx}",method = RequestMethod.GET)
     public String board(@PathVariable("user_idx") Integer user_idx, Model model) throws Exception
     {
         boardService.ViewCntUpdate(user_idx);
@@ -69,40 +69,43 @@ public class BoardController {
 
         return "board/board";
     }
+    @RequestMapping(value = "/lits",method = RequestMethod.GET)
     //인기글
-    @GetMapping("/lits")
     public String index(Model model) {
         List<Board> list=boardService.BoardBestList();
+        List<Board> list2=boardService.BoardList();
         model.addAttribute("boa",list);
+        model.addAttribute("boar",list2);
 
         return "board/lits";
     }
-    @GetMapping("/add")
+    @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addForm(Model model ,@ModelAttribute Board board){
         model.addAttribute("board",board);
         return "board/addForm2";
     }
-    @PostMapping("/add")
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String addBoard(@ModelAttribute Board board, RedirectAttributes redirectAttributes , Authentication authentication,
                            MultipartHttpServletRequest multipartHttpServletRequest
-                           , BoardFile boardFile)throws Exception{
-        boardService.BoardAdd(board,multipartHttpServletRequest,boardFile);
+                           , BoardFile boardFile, Principal principal)throws Exception{
+        boardService.BoardAdd(board,multipartHttpServletRequest,boardFile,principal.getName());
+        System.out.println(boardFile);
         return "redirect:/board/boards";
     }
-    @GetMapping("/{user_idx}/edit")
+    @RequestMapping(value = "/{user_idx}/edit",method = RequestMethod.GET)
     public String editForm(@PathVariable("user_idx") Integer user_idx,Model model) throws Exception{
         Board board = boardService.selectBoardDetail(user_idx);
         model.addAttribute("board",board);
 
         return "board/editForm";
     }
-    @PostMapping("/{user_idx}/edit")
+    @RequestMapping(value = "/{user_idx}/edit",method = RequestMethod.POST)
     public String edit(@PathVariable String user_idx, @ModelAttribute Board board)throws Exception{
         boardService.BoardUpdate(board);
         return "redirect:/board/{user_idx}";
     }
     @ResponseBody
-    @GetMapping("/images/{filename}")
+    @RequestMapping(value = "/images/{filename}",method = RequestMethod.GET)
     public Resource processImg(@PathVariable String filename,BoardFile boardFile,@RequestParam Integer idx, @RequestParam Integer boardIdx) throws Exception{
         boardFile=boardService.selectBoardFileInformation(idx,boardIdx);
         System.out.println(boardFile.getStoredFilePath());

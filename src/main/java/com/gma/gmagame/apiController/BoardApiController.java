@@ -35,7 +35,7 @@ public class BoardApiController {
     @PostMapping("/create")
     public void apiAddBoard(@RequestBody Board board, BoardFile boardFile, Principal principal, MultipartHttpServletRequest multipartHttpServletRequest)throws Exception {
         board.setName(principal.getName());
-        boardService.BoardAdd(board,multipartHttpServletRequest,boardFile);
+        boardService.BoardAdd(board,multipartHttpServletRequest,boardFile, principal.getName());
     }
 
     //게시판 수정
