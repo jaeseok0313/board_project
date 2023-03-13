@@ -3,6 +3,7 @@ package com.gma.gmagame.contorller;
 import com.gma.gmagame.Service.UserService;
 import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -68,6 +69,28 @@ public class AccountController {
         int result = userService.idCheck(user,name);
         System.out.println(result);
         return result;
+    }
+    @RequestMapping(value = "/password", method = RequestMethod.GET)
+    public String password()
+    {
+        return "account/password";
+    }
+    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    public String password(Principal principal,@RequestParam("now_pass")String pass,@RequestParam("after_pass")String after_pass,User user)
+    {
+        //비밀번호 비교
+        user = userService.getMypage(principal.getName());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println(user);
+        if(encoder.matches(pass,user.getPassword()))
+        {
+            userService.passChange(user, principal.getName(),after_pass);
+        }
+        else{
+            return "account/password";
+        }
+        //비밀번호 변경
+        return "board/list";
     }
 
 }

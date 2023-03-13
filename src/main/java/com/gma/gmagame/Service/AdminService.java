@@ -5,6 +5,7 @@ import com.gma.gmagame.mapper.BoardMapper;
 import com.gma.gmagame.model.Admin;
 import com.gma.gmagame.model.Board;
 import com.gma.gmagame.model.Paging;
+import com.gma.gmagame.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

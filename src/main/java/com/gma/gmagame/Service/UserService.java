@@ -73,6 +73,13 @@ public class UserService implements UserDetailsService {
         }
         return validatorResult;
     }
+    public void passChange(User user,String userId,String userPw)
+    {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setUser_id(userId);
+        user.setUser_pwd(passwordEncoder.encode(userPw));
+        userMapper.passChange(user);
+    }
 
 }
 

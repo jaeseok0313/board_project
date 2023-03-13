@@ -32,4 +32,6 @@ public interface UserMapper {
 
     public int idChk(User user) throws Exception;
 
+    public void passChange(User user);
+
 }

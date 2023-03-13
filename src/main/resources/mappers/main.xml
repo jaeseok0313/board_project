@@ -65,6 +65,12 @@
         FROM USER_BAS
         WHERE user_id=#{user_id}
     </select>
+    <update id="passChange" parameterType="com.gma.gmagame.model.User" >
+        UPDATE USER_BAS
+        SET USER_PWD=#{user_pwd}
+        WHERE USER_ID=#{user_id}
+    </update>
+
 
 </mapper>
 

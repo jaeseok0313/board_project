@@ -18,7 +18,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.sendRedirect("http://localhost:8080/api/login/fail");
+//        response.sendRedirect("http://3.39.154.182:8080/account/login");
+        response.sendRedirect("http://localhost:8080/account/login");
     }
 
 }

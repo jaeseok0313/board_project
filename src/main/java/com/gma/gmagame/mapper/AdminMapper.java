@@ -30,4 +30,5 @@ public interface AdminMapper {
 
     public void authReq(Admin admin);
 
+
 }

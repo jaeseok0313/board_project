@@ -20,6 +20,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(600);
+        //response.sendRedirect("http://3.39.154.182:8080/");
         response.sendRedirect("http://localhost:8080/");
     }
 
