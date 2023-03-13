@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.*;
 
 
@@ -14,8 +16,12 @@ import java.util.*;
 public class User implements UserDetails {
 
     private Integer user_no;
+    @NotBlank(message="id는 필수 입력")
     private String user_id;//
+    @NotBlank(message="password는 필수 입력")
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
     private String user_pwd;//
+    @NotBlank(message="이름은 필수 입력")
     private String user_name;//
     private String admin_yn;
     private String phone_number;//
@@ -51,10 +57,6 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.user_id;
-    }
-
-    public String getUserName() {
-        return this.user_name;
     }
 
     @Override

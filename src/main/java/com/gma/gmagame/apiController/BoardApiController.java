@@ -32,7 +32,7 @@ public class BoardApiController {
     }
 
     //게시글 생성
-    @PostMapping("/create")
+    @PostMapping("")
     public void apiAddBoard(@RequestBody Board board, BoardFile boardFile, Principal principal, MultipartHttpServletRequest multipartHttpServletRequest)throws Exception {
         board.setName(principal.getName());
         boardService.BoardAdd(board,multipartHttpServletRequest,boardFile, principal.getName());
@@ -54,7 +54,7 @@ public class BoardApiController {
         }
     }
     //삭제
-    @DeleteMapping("/delete/{boardId}")
+    @DeleteMapping("/{boardId}")
     public void apiRemoveBoard(@PathVariable Integer boardId,Principal principal) throws Exception {
         Board board = boardService.selectBoardDetail(boardId);
         if(board.getName().equals(principal.getName())) {

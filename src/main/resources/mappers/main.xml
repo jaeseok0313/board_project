@@ -3,15 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gma.gmagame.mapper.UserMapper">
-<!--html 유저 회원가입-->
-    <insert id="saveUser" parameterType="com.gma.gmagame.model.User">
-        <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
-            SELECT NVL(MAX(USER_NO),0)+1
-            FROM USER_BAS
-        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE,DELETE_YN)
-        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE,'N')
-
-    </insert>
 
 <!--   html 회원정보 수정 -->
     <update id="updateUser" parameterType="com.gma.gmagame.model.User">
@@ -66,10 +57,14 @@
         <selectKey resultType="Integer" keyProperty="user_no" order="BEFORE">
             SELECT NVL(MAX(USER_NO),0)+1
             FROM USER_BAS
-        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,STATUS,CREATE_DATE,DELETE_YN)
-        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},'Y',SYSDATE,'N')
-
+        </selectKey>INSERT INTO USER_BAS (USER_NO,USER_ID,USER_PWD,USER_NAME,ADMIN_YN,PHONE_NUMBER,ADDRESS,CREATE_DATE,DELETE_YN)
+        VALUES(#{user_no},#{user_id},#{user_pwd},#{user_name},'N',#{phone_number},#{address},SYSDATE,'N')
     </insert>
+    <select id="idChk" resultType="int">
+        SELECT COUNT(*)
+        FROM USER_BAS
+        WHERE user_id=#{user_id}
+    </select>
 
 </mapper>
 

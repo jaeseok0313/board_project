@@ -1,7 +1,6 @@
 package com.gma.gmagame.contorller;
 
 import com.gma.gmagame.Service.BoardService;
-import com.gma.gmagame.Service.LikesService;
 import com.gma.gmagame.model.Board;
 import com.gma.gmagame.model.BoardFile;
 import com.gma.gmagame.model.Paging;
@@ -31,7 +30,6 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final LikesService likesService;
     @RequestMapping(value = "/boards",method = RequestMethod.GET)
     public String boardList(Paging vo, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
@@ -77,7 +75,7 @@ public class BoardController {
         model.addAttribute("boa",list);
         model.addAttribute("boar",list2);
 
-        return "board/lits";
+        return "lits2";
     }
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public String addForm(Model model ,@ModelAttribute Board board){

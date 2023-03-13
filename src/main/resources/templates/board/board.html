@@ -62,36 +62,37 @@
                 <th scope="row" colspan="6"><strong class="t-15">내용</strong></th>
             </tr>
             <tr>
-                <th scope="row" colspan="6"><textarea type="text" id="contents" name="contents" class="form-text" th:text="${board.contents}" readonly></textarea></th>
-            </tr>
-
-            <tr>
-                <th colspan="6" class="text-center">
-                    <button type="button" class="btn btn-warning" id="Like_plus">추천</button>
-                    <button type="button" class="btn btn-danger" id="hate_btn">비추천</button>
-                    <div class="file_list">
+                <th scope="row" colspan="4"><textarea type="text" id="contents" name="contents" class="form-text" th:text="${board.contents}" readonly></textarea></th>
+                <th colspan="2" class="text-center">
+                    <div class="file_list text-center">
                         <div >
                             <img th:each="imageFile : ${board.fileList}"
-                                 th:src="@{/css/{imageFile}(imageFile=${imageFile.StoredFilePath})}" width="300" height="300" style="margin-right: 5px"/>
+                                 th:src="@{/css/{imageFile}(imageFile=${imageFile.StoredFilePath})}" width="150" height="150" style="margin-right: 5px"/>
                         </div>
-                        <a th:each="list : ${board.fileList}"
-                           th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}"
-                           th:text="|${list.originalFileName}(${list.fileSize} kb)|"></a>
                     </div>
                 </th>
-
             </tr>
-
+            <tr>
+                <th scope="row" colspan="6" class="text-right">
+                    <a th:each="list : ${board.fileList}"
+                       th:href="@{/board/downloadBoardFile.do(idx=${list.idx}, boardIdx=${list.boardIdx})}"
+                       th:text="|${list.originalFileName}(${list.fileSize} kb)|" style="font-size:5px"></a>
+                </th>
+            </tr>
         </tbody>
     </table>
-
-    <div class="text-right">
-        <button class="btn btn-primary" th:onclick="|location.href='@{/board/{user_idx}/edit(user_idx=${board.user_idx})}'|"
-                th:if="${#authentication.name == board.name}">수정</button>
-        <button class="btn btn-primary" th:onclick="|location.href='@{/board/{user_idx}/delete(user_idx=${board.user_idx})}'|"
-                th:if="${#authentication.name == board.name}">삭제</button>
-        <button class="btn btn-secondary" th:onclick="|location.href='@{/board/boards}'|">목록</button>
+    <div class="text-center">
+        <button type="button" class="btn btn-warning" id="Like_plus">추천</button>
+        <button type="button" class="btn btn-danger" id="hate_btn">비추천</button>
+        <div class="text-right">
+            <button class="btn btn-primary" th:onclick="|location.href='@{/board/{user_idx}/edit(user_idx=${board.user_idx})}'|"
+                    th:if="${#authentication.name == board.name}">수정</button>
+            <button class="btn btn-primary" th:onclick="|location.href='@{/board/{user_idx}/delete(user_idx=${board.user_idx})}'|"
+                    th:if="${#authentication.name == board.name}">삭제</button>
+            <button class="btn btn-secondary" th:onclick="|location.href='@{/board/boards}'|">목록</button>
+        </div>
     </div>
+
 </div> <!-- /container -->
 
 <div class="container">
@@ -200,14 +201,10 @@
    			}// 댓글 비동기 끝
 		});// 댓글등록 이벤트 끝
         $('#Like_plus').click(function() {
-
             //Json으로 전달할 파라미터 변수선언
             var boardId = $('input[name=boardId]').val();
             var userId = $('input[name=userId]').val();
-            var likes = $('input[name=likes]').val();
-            console.log(boardId);
-            console.log(userId);
-            console.log(likes);
+
             if(isEmpty(userId)==true)
             {
                 alert("w저리가셈")
@@ -225,13 +222,11 @@
                             a += '<input type="text" id="likes" name="likes" class="form-detail" value="' + data + '" readOnly></input>'
                             $("#likes").html(a)
                         }
-
                     }
                 });
             }
         });
         // 댓글등록 이벤트 끝
-
         function updateCommentForm(id) {
             var commentId = id;
             var content = document.getElementById(id).innerText;

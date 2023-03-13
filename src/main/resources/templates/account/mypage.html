@@ -34,6 +34,7 @@
                     <label for="user_id">ID</label>
                     <div class="mypage-group">
                         <input type="text" id="user_id" name="user_id" class="form-control" th:value="${user.user_id}" >
+                        <button class="idChk" type="button" id="idChk" onclick="check_id();" value="N">중복 확인</button>
                     </div>
                 </div>
                 <!-- 비밀번호 입력 -->
@@ -76,6 +77,33 @@
     </div>
 
 </div>
+<script>
+    function check_id()
+    {
+        var idCheck =0;
+        var user_id=$('input#user_id').val();
+        console.log(user_id);
+
+        $.ajax({
+            data:{user_id:user_id},
+            url:"/account/idCheck",
+            type:"POST",
+            dataTypes:"JSON",
+            success:function (data)
+            {
+                if(data == 1){
+                    alert("중복된 아이디입니다.");
+                    $("button#Submit").attr("disabled",true);
+                }else if(data == 0){
+                    $("#idChk").attr("value", "Y");
+                    alert("사용가능한 아이디입니다.");
+                    $("button#Submit").removeAttr("disabled");
+                }
+            }
+        })
+
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="form-validation.js"></script>

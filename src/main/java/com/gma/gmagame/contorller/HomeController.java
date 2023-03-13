@@ -2,7 +2,6 @@ package com.gma.gmagame.contorller;
 
 
 import com.gma.gmagame.Service.BoardService;
-import com.gma.gmagame.Service.LikesService;
 import com.gma.gmagame.model.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,6 @@ public class HomeController {
         model.addAttribute("boa",list);
         model.addAttribute("boar",list2);
 
-        return "board/lits";
+        return "board/list";
     }
 }
